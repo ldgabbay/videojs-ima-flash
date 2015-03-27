@@ -1,0 +1,3 @@
+/* global Widget */
+
+Widget.VERSION = "0.1.1";

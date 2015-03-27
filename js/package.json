@@ -1,0 +1,36 @@
+{
+  "name": "widget",
+  "version": "0.0.0",
+  "description": "Widget Library",
+  "keywords": [],
+  "homepage": "http://widget.com",
+  "bugs": {
+    "url": "http://github.com/widget/widget/issues",
+    "email": "widget-bugs@widget.com"
+  },
+  "license": "BSD-3-Clause",
+  "author": {
+    "name": "Widget, Inc.",
+    "email": "author@widget.com",
+    "url": "https://github.com/widget/widget/blob/0.0.0/AUTHORS.txt"
+  },
+  "main": "dist/widget.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/widget/widget.git"
+  },
+  "scripts": {
+    "build": "npm install && grunt",
+    "test": "grunt"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "0.4.5",
+    "grunt-cli": "0.1.13",
+    "grunt-contrib-concat": "0.5.0",
+    "grunt-contrib-jshint": "0.10.0",
+    "grunt-contrib-uglify": "0.7.0",
+    "grunt-jscs": "1.2.0",
+    "grunt-jsonlint": "1.0.4"
+  }
+}
