@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2012 Google Inc. All Rights Reserved.
+  You may study, modify, and use this example for any purpose.
+  Note that this example is provided "as is", WITHOUT WARRANTY
+  of any kind either expressed or implied.
+ -->
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+        xmlns:s="library://ns.adobe.com/flex/spark"
+        xmlns:mx="library://ns.adobe.com/flex/halo"
+        applicationComplete="applicationCompleteHandler()">
+
+  <fx:Script>
+    <![CDATA[
+      import SdkIntegrationExample;
+
+      private var sdkIntegration:SdkIntegrationExample;
+
+      public function applicationCompleteHandler():void {
+        Security.allowDomain("*");
+        sdkIntegration = new SdkIntegrationExample(videoPlayer);
+      }
+    ]]>
+  </fx:Script>
+
+  <s:Panel title="IMA sdk integration example">
+    <s:VGroup>
+      <s:HGroup>
+        <s:RadioButton groupName="adType"
+            id="linear"
+            label="Linear Ad"
+            width="150"
+            click="sdkIntegration.linearAdSelectionHandler(event)"/>
+        <s:RadioButton groupName="adType"
+            id="nonlinear"
+            label="Non-linear Ad"
+            width="150"
+            click="sdkIntegration.nonlinearAdSelectionHandler(event)"/>
+      </s:HGroup>
+      <s:VideoPlayer
+            id="videoPlayer"
+            autoPlay="false"
+            width="640"
+            height="360"/>
+      </s:VGroup>
+  </s:Panel>
+</s:Application>
