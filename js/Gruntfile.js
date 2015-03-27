@@ -1,39 +1,12 @@
 module.exports = function( grunt ) {
     "use strict";
 
-    var library_name = "daxee";
+    var library_name = "videojs.ima_flash";
     var filelist = [].concat(["wrap/intro.js"], grunt.file.readJSON("build/filelist.json"), ["wrap/outro.js"]);
 
     console.log(filelist);
 
     grunt.initConfig({
-        jshint: {
-            main: {
-                src: [ "src/**/*.js" ],
-                options: {
-                    jshintrc: true
-                }
-            },
-            framework: {
-                src: [ "Gruntfile.js" ],
-                options: {
-                    jshintrc: true
-                }
-            }
-        },
-        jsonlint: {
-            framework: {
-                src: [ "package.json" ]
-            }
-        },
-        jscs: {
-            main: {
-                src: "src/**/*.js"
-            },
-            framework: {
-                src: "Gruntfile.js"
-            }
-        },
         concat: {
             main: {
                 src: filelist,
@@ -52,7 +25,7 @@ module.exports = function( grunt ) {
                     beautify: {
                         ascii_only: true
                     },
-                    banner: "/* (c) 2015 Daxee */",
+                    banner: "/*  */",
                     compress: {
                         hoist_funs: false,
                         loops: false,
@@ -64,12 +37,8 @@ module.exports = function( grunt ) {
     });
 
     grunt.loadNpmTasks("grunt-contrib-concat");
-    grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-uglify");
-    grunt.loadNpmTasks("grunt-jscs");
-    grunt.loadNpmTasks("grunt-jsonlint");
 
-    grunt.registerTask("lint", ["jshint:main", "jscs:main"]);
     grunt.registerTask("compile", ["concat:main", "uglify:main"]);
-    grunt.registerTask("default", ["lint", "compile"]);
+    grunt.registerTask("default", ["compile"]);
 };
