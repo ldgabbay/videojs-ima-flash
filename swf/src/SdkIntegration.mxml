@@ -12,13 +12,13 @@
 
   <fx:Script>
     <![CDATA[
-      import SdkIntegrationExample;
+      import SdkIntegrationExample2;
 
-      private var sdkIntegration:SdkIntegrationExample;
+      private var sdkIntegration:SdkIntegrationExample2;
 
       public function applicationCompleteHandler():void {
         Security.allowDomain("*");
-        sdkIntegration = new SdkIntegrationExample(videoPlayer);
+        sdkIntegration = new SdkIntegrationExample2(videoPlayer);
       }
     ]]>
   </fx:Script>
@@ -28,12 +28,12 @@
       <s:HGroup>
         <s:RadioButton groupName="adType"
             id="linear"
-            label="Linear Ad"
+            label="Linear Adxxx"
             width="150"
             click="sdkIntegration.linearAdSelectionHandler(event)"/>
         <s:RadioButton groupName="adType"
             id="nonlinear"
-            label="Non-linear Ad"
+            label="Non-linear Adxxx"
             width="150"
             click="sdkIntegration.nonlinearAdSelectionHandler(event)"/>
       </s:HGroup>

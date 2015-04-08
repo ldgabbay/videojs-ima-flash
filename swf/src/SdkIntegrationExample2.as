@@ -28,7 +28,7 @@ package {
   /**
    * Simple Google IMA SDK video player integration.
    */
-  public class SdkIntegrationExample {
+  public class SdkIntegrationExample2 {
 
     private static const CONTENT_URL:String =
         "http://rmcdn.2mdn.net/Demo/vast_inspector/android.flv";
@@ -61,7 +61,7 @@ package {
      *
      * @param videoPlayerValue The content video player.
      */
-    public function SdkIntegrationExample(videoPlayerValue:VideoPlayer):void {
+    public function SdkIntegrationExample2(videoPlayerValue:VideoPlayer):void {
       videoPlayer = videoPlayerValue;
       videoPlayer.source = CONTENT_URL;
       // Add some custom event handlers.
@@ -82,8 +82,10 @@ package {
      * Handler for when a user clicks on the "Linear Ad" radio button.
      */
     public function linearAdSelectionHandler(event:Event):void {
+      trace('info', 'linearAdSelectionHandler');
       destroyAdsManager();
       requestAds(LINEAR_AD_TAG);
+      trace('info', 'linearAdSelectionHandler done');
     }
 
     /**
@@ -116,6 +118,7 @@ package {
      */
     private function requestAds(adTag:String):void {
       // The AdsRequest encapsulates all the properties required to request ads.
+      trace('info', 'requestAds: '+adTag);
       var adsRequest:AdsRequest = new AdsRequest();
       adsRequest.adTagUrl = adTag;
       adsRequest.linearAdSlotWidth = videoPlayer.width;
