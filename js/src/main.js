@@ -1060,6 +1060,19 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     });
 
 
+
+    player.ima_flash.pauseAd = function() {
+        player.ima_flash.getSWF().pauseAd();
+    }
+
+    player.ima_flash.resumeAd = function() {
+        player.ima_flash.getSWF().resumeAd();
+    }
+
+    player.ima_flash.adPaused = function() {
+        return player.ima_flash.getSWF().adPaused();
+    }
+
 /*
 	var options = {
 		id: 'video_id',

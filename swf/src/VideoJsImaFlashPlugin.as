@@ -103,6 +103,10 @@ package {
       ExternalInterface.addCallback("videojsEnded", jsi_videojsEnded);
       ExternalInterface.addCallback("videojsVolumeChange", jsi_videojsVolumeChange);
 
+      ExternalInterface.addCallback("pauseAd", jsi_pauseAd);
+      ExternalInterface.addCallback("resumeAd", jsi_resumeAd);
+      ExternalInterface.addCallback("adPaused", jsi_adPaused);
+
       // arg videoPlayerValue:VideoPlayer
 
       /*
@@ -165,6 +169,7 @@ package {
 
       this.addChild(adsManager.adsContainer);
       adsManager.start();
+      _adsManager_paused = false;
       _state = STATE_ADS_PLAYING;
       jso_trigger('adstart');
     }
@@ -181,6 +186,34 @@ package {
         adsManager.volume = muted ? 0 : volume;
       }
     }
+
+
+    private var _adsManager_paused:Boolean = false;
+
+    private function jsi_pauseAd():void {
+      trace('info', 'jsi_pauseAd');
+
+      if (adsManager) {
+        adsManager.pause();
+        _adsManager_paused = true;
+      }
+    }
+
+    private function jsi_resumeAd():void {
+      trace('info', 'jsi_resumeAd');
+
+      if (adsManager) {
+        adsManager.resume();
+        _adsManager_paused = false;
+      }
+    }
+
+    private function jsi_adPaused():Boolean {
+      trace('info', 'jsi_adPaused');
+
+      return _adsManager_paused;
+    }
+
 
     private function jso_trigger(eventName:String):void {
       trace('info', 'jso_trigger');
@@ -378,40 +411,15 @@ package {
     }
 
     /**
-     * The video player raises this event when the user clicks the play/pause
-     * button.
-     */
-    private function playPauseButtonHandler(event:MouseEvent):void {
-      // Prevent video player from receiving the event, because it would affect
-      // content.
-      event.stopImmediatePropagation();
-      var paused:Boolean = false; // !videoPlayer.playPauseButton.selected;
-      if (paused) {
-        adsManager.pause();
-      } else {
-        adsManager.resume();
-      }
-    }
-
-    /**
      * Switches the video player controls to control the video ad.
      */
     private function enableLinearAdControls():void {
-      // // Subscribe to the the player control click events with maximum
-      // // priority, so that we can handle the click before it is handled by the
-      // // VideoPlayer instance.
-      // videoPlayer.playPauseButton.addEventListener(MouseEvent.CLICK,
-      //                                              playPauseButtonHandler,
-      //                                              false, // use capture.
-      //                                              int.MAX_VALUE);
     }
 
     /**
      * Switches the video player controls to control the content.
      */
     private function enableContentControls():void {
-      // videoPlayer.playPauseButton.removeEventListener(MouseEvent.CLICK,
-      //                                                 playPauseButtonHandler);
       canScrub = true;
     }
 
