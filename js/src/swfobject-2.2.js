@@ -669,10 +669,10 @@ var swfobject = function() {
 					if (flashvarsObj && typeof flashvarsObj === OBJECT) {
 						for (var k in flashvarsObj) { // copy object to avoid the use of references, because web authors often reuse flashvarsObj for multiple SWFs
 							if (typeof par.flashvars != UNDEF) {
-								par.flashvars += "&" + k + "=" + flashvarsObj[k];
+								par.flashvars += "&" + encodeURIComponent(k) + "=" + encodeURIComponent(flashvarsObj[k]);
 							}
 							else {
-								par.flashvars = k + "=" + flashvarsObj[k];
+								par.flashvars = encodeURIComponent(k) + "=" + encodeURIComponent(flashvarsObj[k]);
 							}
 						}
 					}
