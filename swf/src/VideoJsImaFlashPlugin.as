@@ -233,10 +233,17 @@ package {
       return ExternalInterface.call('videojs_currentTime', _videojs_id);
     }
 
-    private function jso_adsEnded():void {
-      trace('info', 'jso_adsEnded');
 
-      ExternalInterface.call('videojs_ima_flash_adsEnded', _videojs_id);
+    private function jso_content_pause():void {
+      trace('info', 'jso_content_pause');
+
+      ExternalInterface.call('videojs_ima_flash_content_pause', _videojs_id);
+    }
+
+    private function jso_content_resume():void {
+      trace('info', 'jso_content_resume');
+
+      ExternalInterface.call('videojs_ima_flash_content_resume', _videojs_id);
     }
 
 
@@ -291,12 +298,12 @@ package {
       // might be more than one ad played in the case of ad pods and ad rules.
       adsManager.addEventListener(AdEvent.ALL_ADS_COMPLETED, allAdsCompletedHandler);
       // If ad is linear, it will fire content pause request event.
-      adsManager.addEventListener(AdEvent.CONTENT_PAUSE_REQUESTED, contentPauseRequestedHandler);
+      adsManager.addEventListener(AdEvent.CONTENT_PAUSE_REQUESTED, adsManagerContentPauseRequested);
       // When ad finishes or if ad is non-linear, content resume event will be
       // fired. For example, if ad rules response only has post-roll, content
       // resume will be fired for pre-roll ad (which is not present) to signal
       // that content should be started or resumed.
-      adsManager.addEventListener(AdEvent.CONTENT_RESUME_REQUESTED, contentResumeRequestedHandler);
+      adsManager.addEventListener(AdEvent.CONTENT_RESUME_REQUESTED, adsManagerContentResumeRequested);
       // We want to know when an ad starts.
       adsManager.addEventListener(AdEvent.STARTED, startedHandler);
       adsManager.addEventListener(AdErrorEvent.AD_ERROR, adsManagerPlayErrorHandler);
@@ -364,7 +371,11 @@ package {
      * The AdsManager raises this event when it requests the publisher to pause
      * the content.
      */
-    private function contentPauseRequestedHandler(event:AdEvent):void {
+    private function adsManagerContentPauseRequested(event:AdEvent):void {
+      trace('info', 'adsManagerContentPauseRequested');
+
+      jso_content_pause();
+
       // The ad will cover a large portion of the content, therefore content
       // must be paused.
       // if (videoPlayer.playing) {
@@ -383,7 +394,11 @@ package {
      * The AdsManager raises this event when it requests the publisher to resume
      * the content.
      */
-    private function contentResumeRequestedHandler(event:AdEvent):void {
+    private function adsManagerContentResumeRequested(event:AdEvent):void {
+      trace('info', 'adsManagerContentResumeRequested');
+
+      jso_content_resume();
+
       // Rewire controls to affect content instead of the ads manager.
       enableContentControls();
       // videoPlayer.play();
@@ -406,7 +421,6 @@ package {
     private function allAdsCompletedHandler(event:AdEvent):void {
       // Ads manager can be destroyed after all of its ads have played.
       destroyAdsManager();
-      jso_adsEnded();
       _state = STATE_NONE;
     }
 

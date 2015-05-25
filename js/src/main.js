@@ -47,9 +47,14 @@ window.videojs_currentTime = function(id) {
     return videojs(id).currentTime();
 };
 
-window.videojs_ima_flash_adsEnded = function(id) {
-    console.log('videojs_ima_flash_adsEnded', id);
-    return videojs(id).ima_flash.adsEnded();
+window.videojs_ima_flash_content_pause = function(id) {
+    console.log('videojs_ima_flash_content_pause', id);
+    videojs(id).ima_flash.pauseContent();
+};
+
+window.videojs_ima_flash_content_resume = function(id) {
+    console.log('videojs_ima_flash_content_resume', id);
+    videojs(id).ima_flash.resumeContent();
 };
 
 /**
@@ -215,46 +220,67 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         player.trigger('adserror');
     };
 
-    /**
-     * Pauses the content video and displays the ad container so ads can play.
-     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
-     * @ignore
-     */
-    player.ima_flash.onContentPauseRequested_ = function(adEvent) {
+
+    player.ima_flash.pauseContent = function() {
+        console.log('pauseContent');
+
+        player.pause();
+
         adsActive = true;
         adPlaying = true;
-        player.off('ended', localContentEndedListener);
-        if (adEvent.getAd().getAdPodInfo().getPodIndex() != -1) {
+        // player.off('ended', localContentEndedListener);
+        // if (adEvent.getAd().getAdPodInfo().getPodIndex() != -1) {
           // Skip this call for post-roll ads
           player.ads.startLinearAdMode();
-        }
+        // }
         adContainerDiv.style.display = 'block';
-        controlsDiv.style.display = 'block';
+        // controlsDiv.style.display = 'block';
         vjsControls.hide();
-        player.pause();
+
+
+        // player.pause();
+        document.getElementById(player.id()+'_html5_api').style.display = 'none';
+        // var siblings = document.getElementById(player.id()).childNodes;
+        // for (var i=0; i < siblings.length; ++i) {
+        //     if (hasClass(siblings[i], 'vjs-control-bar')) {
+        //         siblings[i].style.display = 'none';
+        //     }
+        // }
+
+        // player.ads.startLinearAdMode();
     };
 
-    /**
-     * Resumes content video and hides the ad container.
-     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
-     * @ignore
-     */
-    player.ima_flash.onContentResumeRequested_ = function(adEvent) {
+    player.ima_flash.resumeContent = function() {
+        console.log('resumeContent');
+
         adsActive = false;
         adPlaying = false;
-        player.on('ended', localContentEndedListener);
+        // player.on('ended', localContentEndedListener);
         adContainerDiv.style.display = 'none';
         vjsControls.show();
-        if (!currentAd) {
-          // Something went wrong playing the ad
-          player.ads.endLinearAdMode();
-        } else if (!contentComplete &&
-            // Don't exit linear mode after post-roll or content will auto-replay
-            currentAd.getAdPodInfo().getPodIndex() != -1 ) {
-          player.ads.endLinearAdMode();
-        }
-        countdownDiv.innerHTML = '';
+        // if (!currentAd) {
+        //   // Something went wrong playing the ad
+        //   player.ads.endLinearAdMode();
+        // } else if (!contentComplete &&
+        //     // Don't exit linear mode after post-roll or content will auto-replay
+        //     currentAd.getAdPodInfo().getPodIndex() != -1 ) {
+        //   player.ads.endLinearAdMode();
+        // }
+        player.ads.endLinearAdMode();
+        // countdownDiv.innerHTML = '';
+
+
+        // player.ads.endLinearAdMode();
+        document.getElementById(player.id()+'_html5_api').style.display = 'inline-block';
+        // var siblings = document.getElementById(player.id()).childNodes;
+        // for (var i=0; i < siblings.length; ++i) {
+        //     if (hasClass(siblings[i], 'vjs-control-bar')) {
+        //         siblings[i].style.display = 'block';
+        //     }
+        // }
+        // player.play();
     };
+
 
     /**
      * Starts the content video when a non-linear ad is loaded.
@@ -990,31 +1016,13 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 
 	player.on('readyforpreroll', function() {
 		console.log('readyforpreroll');
-		player.pause();
-        document.getElementById(player.id()+'_html5_api').style.display = 'none';
-        var siblings = document.getElementById(player.id()).childNodes;
-        for (var i=0; i < siblings.length; ++i) {
-            if (hasClass(siblings[i], 'vjs-control-bar')) {
-                siblings[i].style.display = 'none';
-            }
-        }
 
-		player.ads.startLinearAdMode();
-        player.ima_flash.getSWF().startAd();
+    // pauseContent event is too slow, so pausing ahead of time here
+    player.pause();
+
+    // player.ima_flash.pauseContent();
+    player.ima_flash.getSWF().startAd();
 	});
-
-    player.ima_flash.adsEnded = function() {
-        console.log('adsEnded');
-        player.ads.endLinearAdMode();
-        document.getElementById(player.id()+'_html5_api').style.display = 'inline-block';
-        var siblings = document.getElementById(player.id()).childNodes;
-        for (var i=0; i < siblings.length; ++i) {
-            if (hasClass(siblings[i], 'vjs-control-bar')) {
-                siblings[i].style.display = 'block';
-            }
-        }
-        player.play();
-    };
 
     player.on('ended', function() {
         player.ima_flash.getSWF().videojsEnded();
