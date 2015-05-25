@@ -6,31 +6,31 @@
 // https://raw.githubusercontent.com/videojs/videojs-contrib-ads/master/ad-states.png
 // https://github.com/videojs/video.js/blob/master/docs/api/vjs.Player.md
 
-var 
-	extend = function(obj) {
-		var arg;
-		var index;
-		var key;
-		for (index = 1; index < arguments.length; index++) {
-			arg = arguments[index];
-			for (key in arg) {
-				if (arg.hasOwnProperty(key)) {
-					obj[key] = arg[key];
-				}
-			}
-		}
-		return obj;
-	},
+var
+    extend = function(obj) {
+        var arg;
+        var index;
+        var key;
+        for (index = 1; index < arguments.length; index++) {
+            arg = arguments[index];
+            for (key in arg) {
+                if (arg.hasOwnProperty(key)) {
+                    obj[key] = arg[key];
+                }
+            }
+        }
+        return obj;
+    },
 
     hasClass = function(element, cls) {
         return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
     },
 
-	ima_defaults = {
-		debug: false,
-		timeout: 5000,
-		prerollTimeout: 100
-	};
+    ima_defaults = {
+        debug: false,
+        timeout: 5000,
+        prerollTimeout: 100
+    };
 
 window.videojs_trigger = function(id, eventName) {
     console.log('videojs_trigger', id, eventName);
@@ -98,11 +98,11 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
             vjsControls.el().parentNode.insertBefore(
                 document.createElement('div'),
                 vjsControls.el());
-        adContainerDiv.id = player.id()+'-ima_flash-ad-container';
+        adContainerDiv.id = player.id() + '-ima_flash-ad-container';
         adContainerDiv.style.width = player.width() + 'px';
         adContainerDiv.style.height = player.height() + 'px';
         swfDiv = adContainerDiv.appendChild(document.createElement('div'));
-        swfDiv.id = player.id()+'-ima_flash-swf';
+        swfDiv.id = player.id() + '-ima_flash-swf';
         swfDiv.style.width = player.width() + 'px';
         swfDiv.style.height = player.height() + 'px';
 
@@ -126,48 +126,48 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      * @ignore
      */
     player.ima_flash.createControls_ = function() {
-/*
-        controlsDiv = document.createElement('div');
-        controlsDiv.id = player.id()+'-ima_flash-controls-div';
-        controlsDiv.style.width = '100%';
-        countdownDiv = document.createElement('div');
-        countdownDiv.id = player.id()+'-ima_flash-countdown-div';
-        countdownDiv.innerHTML = 'Advertisement';
-        countdownDiv.style.display = showCountdown ? 'block' : 'none';
-        seekBarDiv = document.createElement('div');
-        seekBarDiv.id = player.id()+'-ima_flash-seek-bar-div';
-        seekBarDiv.style.width = player.width() + 'px';
-        progressDiv = document.createElement('div');
-        progressDiv.id = player.id()+'-ima_flash-progress-div';
-        playPauseDiv = document.createElement('div');
-        playPauseDiv.id = player.id()+'-ima_flash-play-pause-div';
-        playPauseDiv.className = 'ima-playing';
-        playPauseDiv.addEventListener(
-            'click',
-            player.ima_flash.onAdPlayPauseClick_,
-            false);
-        muteDiv = document.createElement('div');
-        muteDiv.id = player.id()+'-ima_flash-mute-div';
-        muteDiv.className = 'ima-non-muted';
-        muteDiv.addEventListener(
-            'click',
-            player.ima_flash.onAdMuteClick_,
-            false);
-        fullscreenDiv = document.createElement('div');
-        fullscreenDiv.id = player.id()+'-ima_flash-fullscreen-div';
-        fullscreenDiv.className = 'ima-non-fullscreen';
-        fullscreenDiv.addEventListener(
-            'click',
-            player.ima_flash.onAdFullscreenClick_,
-            false);
-        adContainerDiv.appendChild(controlsDiv);
-        controlsDiv.appendChild(countdownDiv);
-        controlsDiv.appendChild(seekBarDiv);
-        controlsDiv.appendChild(playPauseDiv);
-        controlsDiv.appendChild(muteDiv);
-        controlsDiv.appendChild(fullscreenDiv);
-        seekBarDiv.appendChild(progressDiv);
-*/
+        /*
+                controlsDiv = document.createElement('div');
+                controlsDiv.id = player.id()+'-ima_flash-controls-div';
+                controlsDiv.style.width = '100%';
+                countdownDiv = document.createElement('div');
+                countdownDiv.id = player.id()+'-ima_flash-countdown-div';
+                countdownDiv.innerHTML = 'Advertisement';
+                countdownDiv.style.display = showCountdown ? 'block' : 'none';
+                seekBarDiv = document.createElement('div');
+                seekBarDiv.id = player.id()+'-ima_flash-seek-bar-div';
+                seekBarDiv.style.width = player.width() + 'px';
+                progressDiv = document.createElement('div');
+                progressDiv.id = player.id()+'-ima_flash-progress-div';
+                playPauseDiv = document.createElement('div');
+                playPauseDiv.id = player.id()+'-ima_flash-play-pause-div';
+                playPauseDiv.className = 'ima-playing';
+                playPauseDiv.addEventListener(
+                    'click',
+                    player.ima_flash.onAdPlayPauseClick_,
+                    false);
+                muteDiv = document.createElement('div');
+                muteDiv.id = player.id()+'-ima_flash-mute-div';
+                muteDiv.className = 'ima-non-muted';
+                muteDiv.addEventListener(
+                    'click',
+                    player.ima_flash.onAdMuteClick_,
+                    false);
+                fullscreenDiv = document.createElement('div');
+                fullscreenDiv.id = player.id()+'-ima_flash-fullscreen-div';
+                fullscreenDiv.className = 'ima-non-fullscreen';
+                fullscreenDiv.addEventListener(
+                    'click',
+                    player.ima_flash.onAdFullscreenClick_,
+                    false);
+                adContainerDiv.appendChild(controlsDiv);
+                controlsDiv.appendChild(countdownDiv);
+                controlsDiv.appendChild(seekBarDiv);
+                controlsDiv.appendChild(playPauseDiv);
+                controlsDiv.appendChild(muteDiv);
+                controlsDiv.appendChild(fullscreenDiv);
+                seekBarDiv.appendChild(progressDiv);
+        */
     };
 
 
@@ -176,7 +176,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      * pre-roll.
      */
     player.ima_flash.start = function() {
-    	// TODO
+        // TODO
         // try {
         //   adsManager.init(
         //       player.width(),
@@ -197,7 +197,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      * @ignore
      */
     player.ima_flash.onAdsLoaderError_ = function(event) {
-    	// TODO
+        // TODO
         // window.console.log('AdsLoader error: ' + event.getError());
         // if (adsManager) {
         //   adsManager.destroy();
@@ -213,7 +213,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     player.ima_flash.onAdError_ = function(adErrorEvent) {
         console.warn(adErrorEvent);
-    	// TODO
+        // TODO
         // window.console.log('Ad error: ' + adErrorEvent.getError());
         // adsManager.destroy();
         adContainerDiv.style.display = 'none';
@@ -230,8 +230,8 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         adPlaying = true;
         // player.off('ended', localContentEndedListener);
         // if (adEvent.getAd().getAdPodInfo().getPodIndex() != -1) {
-          // Skip this call for post-roll ads
-          player.ads.startLinearAdMode();
+        // Skip this call for post-roll ads
+        player.ads.startLinearAdMode();
         // }
         adContainerDiv.style.display = 'block';
         // controlsDiv.style.display = 'block';
@@ -239,7 +239,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 
 
         // player.pause();
-        document.getElementById(player.id()+'_html5_api').style.display = 'none';
+        document.getElementById(player.id() + '_html5_api').style.display = 'none';
         // var siblings = document.getElementById(player.id()).childNodes;
         // for (var i=0; i < siblings.length; ++i) {
         //     if (hasClass(siblings[i], 'vjs-control-bar')) {
@@ -271,7 +271,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 
 
         // player.ads.endLinearAdMode();
-        document.getElementById(player.id()+'_html5_api').style.display = 'inline-block';
+        document.getElementById(player.id() + '_html5_api').style.display = 'inline-block';
         // var siblings = document.getElementById(player.id()).childNodes;
         // for (var i=0; i < siblings.length; ++i) {
         //     if (hasClass(siblings[i], 'vjs-control-bar')) {
@@ -289,7 +289,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     player.ima_flash.onAdLoaded_ = function(adEvent) {
         if (!adEvent.getAd().isLinear()) {
-          player.play();
+            player.play();
         }
     };
 
@@ -302,13 +302,13 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     player.ima_flash.onAdStarted_ = function(adEvent) {
         currentAd = adEvent.getAd();
         if (currentAd.isLinear()) {
-          adTrackingTimer = setInterval(
-              player.ima_flash.onAdPlayheadTrackerInterval_, 250);
-          // Don't bump container when controls are shown
-          adContainerDiv.className = '';
+            adTrackingTimer = setInterval(
+                player.ima_flash.onAdPlayheadTrackerInterval_, 250);
+            // Don't bump container when controls are shown
+            adContainerDiv.className = '';
         } else {
-          // Bump container when controls are shown
-          adContainerDiv.className = 'bumpable-ima-flash-ad-container';
+            // Bump container when controls are shown
+            adContainerDiv.className = 'bumpable-ima-flash-ad-container';
         }
     };
 
@@ -319,7 +319,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     player.ima_flash.onAdComplete_ = function(adEvent) {
         if (currentAd.isLinear()) {
-          clearInterval(adTrackingTimer);
+            clearInterval(adTrackingTimer);
         }
     };
 
@@ -330,26 +330,26 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     player.ima_flash.onAdPlayheadTrackerInterval_ = function() {
         var remainingTime = adsManager.getRemainingTime();
-        var duration =  currentAd.getDuration();
+        var duration = currentAd.getDuration();
         var currentTime = duration - remainingTime;
         currentTime = currentTime > 0 ? currentTime : 0;
         var isPod = false;
         var adPosition, totalAds;
         if (currentAd.getAdPodInfo()) {
-          isPod = true;
-          adPosition = currentAd.getAdPodInfo().getAdPosition();
-          totalAds = currentAd.getAdPodInfo().getTotalAds();
+            isPod = true;
+            adPosition = currentAd.getAdPodInfo().getAdPosition();
+            totalAds = currentAd.getAdPodInfo().getTotalAds();
         }
 
         // Update countdown timer data
         var remainingMinutes = Math.floor(remainingTime / 60);
         var remainingSeconds = Math.floor(remainingTime % 60);
         if (remainingSeconds.toString().length < 2) {
-          remainingSeconds = '0' + remainingSeconds;
+            remainingSeconds = '0' + remainingSeconds;
         }
         var podCount = ': ';
         if (isPod) {
-          podCount = ' (' + adPosition + ' of ' + totalAds + '): ';
+            podCount = ' (' + adPosition + ' of ' + totalAds + '): ';
         }
         countdownDiv.innerHTML =
             'Advertisement' + podCount +
@@ -366,10 +366,10 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      * @ignore
      */
     player.ima_flash.hideAdControls_ = function() {
-//        playPauseDiv.style.display = 'none';
-//        muteDiv.style.display = 'none';
-//        fullscreenDiv.style.display = 'none';
-//        controlsDiv.style.height = '14px';
+        //        playPauseDiv.style.display = 'none';
+        //        muteDiv.style.display = 'none';
+        //        fullscreenDiv.style.display = 'none';
+        //        controlsDiv.style.height = '14px';
     };
 
     /**
@@ -377,10 +377,10 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      * @ignore
      */
     player.ima_flash.showAdControls_ = function() {
-//        controlsDiv.style.height = '37px';
-//        playPauseDiv.style.display = 'block';
-//        muteDiv.style.display = 'block';
-//        fullscreenDiv.style.display = 'block';
+        //        controlsDiv.style.height = '37px';
+        //        playPauseDiv.style.display = 'block';
+        //        muteDiv.style.display = 'block';
+        //        fullscreenDiv.style.display = 'block';
     };
 
     /**
@@ -389,13 +389,13 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     player.ima_flash.onAdPlayPauseClick_ = function() {
         if (adPlaying) {
-          // playPauseDiv.className = 'ima-paused';
-          adsManager.pause();
-          adPlaying = false;
+            // playPauseDiv.className = 'ima-paused';
+            adsManager.pause();
+            adPlaying = false;
         } else {
-          // playPauseDiv.className = 'ima-playing';
-          adsManager.resume();
-          adPlaying = true;
+            // playPauseDiv.className = 'ima-playing';
+            adsManager.resume();
+            adPlaying = true;
         }
     };
 
@@ -405,17 +405,17 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     player.ima_flash.onAdMuteClick_ = function() {
         if (adMuted) {
-          // muteDiv.className = 'ima-non-muted';
-          adsManager.setVolume(1);
-          // Bubble down to content player
-          player.muted(false);
-          adMuted = false;
+            // muteDiv.className = 'ima-non-muted';
+            adsManager.setVolume(1);
+            // Bubble down to content player
+            player.muted(false);
+            adMuted = false;
         } else {
-          // muteDiv.className = 'ima-muted';
-          adsManager.setVolume(0);
-          // Bubble down to content player
-          player.muted(true);
-          adMuted = true;
+            // muteDiv.className = 'ima-muted';
+            adsManager.setVolume(0);
+            // Bubble down to content player
+            player.muted(true);
+            adMuted = true;
         }
     };
 
@@ -425,9 +425,9 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     player.ima_flash.onAdFullscreenClick_ = function() {
         if (player.isFullscreen()) {
-          player.exitFullscreen();
+            player.exitFullscreen();
         } else {
-          player.requestFullscreen();
+            player.requestFullscreen();
         }
     };
 
@@ -438,21 +438,21 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     player.ima_flash.onFullscreenChange_ = function() {
         if (player.isFullscreen()) {
-          fullscreenDiv.className = 'ima-fullscreen';
-          adContainerDiv.style.width = window.screen.width + 'px';
-          adContainerDiv.style.height = window.screen.height + 'px';
-          adsManager.resize(
-              window.screen.width,
-              window.screen.height,
-              google.ima.ViewMode.FULLSCREEN);
+            fullscreenDiv.className = 'ima-fullscreen';
+            adContainerDiv.style.width = window.screen.width + 'px';
+            adContainerDiv.style.height = window.screen.height + 'px';
+            adsManager.resize(
+                window.screen.width,
+                window.screen.height,
+                google.ima.ViewMode.FULLSCREEN);
         } else {
-          fullscreenDiv.className = 'ima-non-fullscreen';
-          adContainerDiv.style.width = player.width() + 'px';
-          adContainerDiv.style.height = player.height() + 'px';
-          adsManager.resize(
-              player.width(),
-              player.height(),
-              google.ima.ViewMode.NORMAL);
+            fullscreenDiv.className = 'ima-non-fullscreen';
+            adContainerDiv.style.width = player.width() + 'px';
+            adContainerDiv.style.height = player.height() + 'px';
+            adsManager.resize(
+                player.width(),
+                player.height(),
+                google.ima.ViewMode.NORMAL);
         }
     };
 
@@ -465,7 +465,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     player.ima_flash.onVolumeChange_ = function() {
         var newVolume = player.muted() ? 0 : player.volume();
         if (adsManager) {
-          adsManager.setVolume(newVolume);
+            adsManager.setVolume(newVolume);
         }
     };
 
@@ -500,11 +500,11 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     player.ima_flash.resetIMA_ = function() {
         if (adsManager) {
-          adsManager.destroy();
-          adsManager = null;
+            adsManager.destroy();
+            adsManager = null;
         }
         if (adsLoader && !contentComplete) {
-          adsLoader.contentComplete();
+            adsLoader.contentComplete();
         }
         contentComplete = false;
     };
@@ -519,7 +519,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     player.ima_flash.addEventListener = function(event, callback) {
         if (adsManager) {
-          adsManager.addEventListener(event, callback);
+            adsManager.addEventListener(event, callback);
         }
     };
 
@@ -543,22 +543,22 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      *     false to only load the content but not start playback.
      */
     player.ima_flash.setContent =
-          function( contentSrc, adTag, playOnLoad) {
-        player.ima_flash.resetIMA_();
-        settings.adTagUrl = adTag ? adTag : settings.adTagUrl;
-        //only try to pause the player when initialised with a source already
-        if (!!player.currentSrc()) {
-          player.pause();
-        }
-        if (contentSrc) {
-          player.src(contentSrc);
-        }
-        if (playOnLoad) {
-          player.on('loadedmetadata', player.ima_flash.playContentFromZero_);
-        } else {
-          player.on('loadedmetadata', player.ima_flash.seekContentToZero_);
-        }
-    };
+        function(contentSrc, adTag, playOnLoad) {
+            player.ima_flash.resetIMA_();
+            settings.adTagUrl = adTag ? adTag : settings.adTagUrl;
+            //only try to pause the player when initialised with a source already
+            if (!!player.currentSrc()) {
+                player.pause();
+            }
+            if (contentSrc) {
+                player.src(contentSrc);
+            }
+            if (playOnLoad) {
+                player.on('loadedmetadata', player.ima_flash.playContentFromZero_);
+            } else {
+                player.on('loadedmetadata', player.ima_flash.seekContentToZero_);
+            }
+        };
 
     /**
      * Adds a listener for the 'ended' event of the video player. This should be
@@ -577,9 +577,9 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     player.ima_flash.pauseAd = function() {
         if (adsActive && adPlaying) {
-          playPauseDiv.className = 'ima-paused';
-          adsManager.pause();
-          adPlaying = false;
+            playPauseDiv.className = 'ima-paused';
+            adsManager.pause();
+            adPlaying = false;
         }
     };
 
@@ -588,9 +588,9 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     player.ima_flash.resumeAd = function() {
         if (adsActive && !adPlaying) {
-          playPauseDiv.className = 'ima-playing';
-          adsManager.resume();
-          adPlaying = true;
+            playPauseDiv.className = 'ima-playing';
+            adsManager.resume();
+            adPlaying = true;
         }
     };
 
@@ -609,7 +609,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     player.ima_flash.updateCurrentTime = function() {
         if (!contentPlayheadTracker.seeking) {
-          contentPlayheadTracker.currentTime = player.currentTime();
+            contentPlayheadTracker.currentTime = player.currentTime();
         }
     };
 
@@ -625,9 +625,9 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         var tempCurrentTime = player.currentTime();
         var diff = (tempCurrentTime - contentPlayheadTracker.previousTime) * 1000;
         if (Math.abs(diff) > seekCheckInterval + seekThreshold) {
-          contentPlayheadTracker.seeking = true;
+            contentPlayheadTracker.seeking = true;
         } else {
-          contentPlayheadTracker.seeking = false;
+            contentPlayheadTracker.seeking = false;
         }
         contentPlayheadTracker.previousTime = player.currentTime();
     };
@@ -827,11 +827,11 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     var localContentEndedListener = function() {
         if (adsLoader && !contentComplete) {
-          adsLoader.contentComplete();
-          contentComplete = true;
+            adsLoader.contentComplete();
+            contentComplete = true;
         }
         for (var index in contentEndedListeners) {
-          contentEndedListeners[index]();
+            contentEndedListeners[index]();
         }
         clearInterval(updateTimeIntervalHandle);
         clearInterval(seekCheckIntervalHandle);
@@ -864,22 +864,22 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     };
 
     var ads_plugin_settings =
-          extend({}, contrib_ads_defaults, options['contribAdsSettings'] || {});
+        extend({}, contrib_ads_defaults, options['contribAdsSettings'] || {});
 
     player.ads(ads_plugin_settings);
 
-//    adsRenderingSettings = new google.ima.AdsRenderingSettings();
-//    adsRenderingSettings.restoreCustomPlaybackStateOnAdBreakComplete = true;
-//    if (settings['adsRenderingSettings']) {
-//        for (var setting in settings['adsRenderingSettings']) {
-//          adsRenderingSettings[setting] =
-//              settings['adsRenderingSettings'][setting];
-//        }
-//    }
+    //    adsRenderingSettings = new google.ima.AdsRenderingSettings();
+    //    adsRenderingSettings.restoreCustomPlaybackStateOnAdBreakComplete = true;
+    //    if (settings['adsRenderingSettings']) {
+    //        for (var setting in settings['adsRenderingSettings']) {
+    //          adsRenderingSettings[setting] =
+    //              settings['adsRenderingSettings'][setting];
+    //        }
+    //    }
 
-//    if (settings['locale']) {
-//        google.ima.settings.setLocale(settings['locale']);
-//    }
+    //    if (settings['locale']) {
+    //        google.ima.settings.setLocale(settings['locale']);
+    //    }
 
     player.ima_flash.createAdContainer_();
 
@@ -917,112 +917,94 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 
 
 
+    // var player = this;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// var player = this;
-
-	var flashvars = {
+    var flashvars = {
         id: player.id(),
         width: player.width(),
         height: player.height(),
         nlwidth: settings.nonLinearWidth || player.width(),
         nlheight: settings.nonLinearHeight || (player.height() / 3)
     };
-	var params = {
-		allowScriptAccess: "always",
-		allowNetworking: "all",
-		wmode: "transparent"
-	};
+    var params = {
+        allowScriptAccess: "always",
+        allowNetworking: "all",
+        wmode: "transparent"
+    };
 
-	if (options && options.tag && typeof options.tag === "string") {
-		flashvars.tag = options.tag;
-	}
-
-
-        // <object type="application/x-shockwave-flash" data="http://vjs.zencdn.net/4.12/video-js.swf" width="100%" height="100%" id="video_id_flash_api" name="video_id_flash_api" class="vjs-tech" style="display: block;">
-        //     <param name="movie" value="http://vjs.zencdn.net/4.12/video-js.swf">
-        //     <param name="flashvars" value="readyFunction=videojs.Flash.onReady&amp;eventProxyFunction=videojs.Flash.onEvent&amp;errorEventProxyFunction=videojs.Flash.onError&amp;autoplay=undefined&amp;preload=undefined&amp;loop=undefined&amp;muted=undefined&amp;">
-        //     <param name="allowScriptAccess" value="always">
-        //     <param name="allowNetworking" value="all">
-        //     <param name="wmode" value="opaque">
-        //     <param name="bgcolor" value="#000000">
-        // </object>
+    if (options && options.tag && typeof options.tag === "string") {
+        flashvars.tag = options.tag;
+    }
 
 
-	// player.ads(); // initialize the ad framework
+    // <object type="application/x-shockwave-flash" data="http://vjs.zencdn.net/4.12/video-js.swf" width="100%" height="100%" id="video_id_flash_api" name="video_id_flash_api" class="vjs-tech" style="display: block;">
+    //     <param name="movie" value="http://vjs.zencdn.net/4.12/video-js.swf">
+    //     <param name="flashvars" value="readyFunction=videojs.Flash.onReady&amp;eventProxyFunction=videojs.Flash.onEvent&amp;errorEventProxyFunction=videojs.Flash.onError&amp;autoplay=undefined&amp;preload=undefined&amp;loop=undefined&amp;muted=undefined&amp;">
+    //     <param name="allowScriptAccess" value="always">
+    //     <param name="allowNetworking" value="all">
+    //     <param name="wmode" value="opaque">
+    //     <param name="bgcolor" value="#000000">
+    // </object>
 
 
-	player.on('durationchange', function() { console.log('event: player: durationchange'); });
-	player.on('ended', function() { console.log('event: player: ended'); });
-	player.on('error', function() { console.log('event: player: error'); });
-	player.on('firstplay', function() { console.log('event: player: firstplay'); });
-	player.on('fullscreenchange', function() { console.log('event: player: fullscreenchange'); });
-	player.on('loadedalldata', function() { console.log('event: player: loadedalldata'); });
-	player.on('loadeddata', function() { console.log('event: player: loadeddata'); });
-	player.on('loadedmetadata', function() { console.log('event: player: loadedmetadata'); });
-	player.on('loadstart', function() { console.log('event: player: loadstart'); });
-	player.on('pause', function() { console.log('event: player: pause'); });
-	player.on('play', function() { console.log('event: player: play'); });
-	player.on('progress', function() { console.log('event: player: progress'); });
-	player.on('seeked', function() { console.log('event: player: seeked'); });
-	player.on('seeking', function() { console.log('event: player: seeking'); });
-	player.on('timeupdate', function() { console.log('event: player: timeupdate'); });
-	player.on('volumechange', function() { console.log('event: player: volumechange'); });
-	player.on('waiting', function() { console.log('event: player: waiting'); });
-	player.on('resize', function() { console.log('event: player: resize'); });
+    // player.ads(); // initialize the ad framework
+
+
+    player.on('durationchange', function() { console.log('event: player: durationchange'); });
+    player.on('ended', function() { console.log('event: player: ended'); });
+    player.on('error', function() { console.log('event: player: error'); });
+    player.on('firstplay', function() { console.log('event: player: firstplay'); });
+    player.on('fullscreenchange', function() { console.log('event: player: fullscreenchange'); });
+    player.on('loadedalldata', function() { console.log('event: player: loadedalldata'); });
+    player.on('loadeddata', function() { console.log('event: player: loadeddata'); });
+    player.on('loadedmetadata', function() { console.log('event: player: loadedmetadata'); });
+    player.on('loadstart', function() { console.log('event: player: loadstart'); });
+    player.on('pause', function() { console.log('event: player: pause'); });
+    player.on('play', function() { console.log('event: player: play'); });
+    player.on('progress', function() { console.log('event: player: progress'); });
+    player.on('seeked', function() { console.log('event: player: seeked'); });
+    player.on('seeking', function() { console.log('event: player: seeking'); });
+    player.on('timeupdate', function() { console.log('event: player: timeupdate'); });
+    player.on('volumechange', function() { console.log('event: player: volumechange'); });
+    player.on('waiting', function() { console.log('event: player: waiting'); });
+    player.on('resize', function() { console.log('event: player: resize'); });
 
     player.on('volumechange', function() {
         player.ima_flash.getSWF().videojsVolumeChange(player.volume(), player.muted());
     });
 
-	player.on('playing', function () {
-		console.log('playing', arguments);
-		// player.trigger('adsready');
-	});
+    player.on('playing', function() {
+        console.log('playing', arguments);
+        // player.trigger('adsready');
+    });
 
-	player.on('contentupdate', function () { console.log('event: ad: contentupdate', arguments); });
-	player.on('readyforpreroll', function () { console.log('event: ad: readyforpreroll', arguments); });
-	player.on('contentplayback', function () { console.log('event: ad: contentplayback', arguments); });
-	player.on('adsready', function () { console.log('event: ad: adsready', arguments); });
-	player.on('adscanceled', function () { console.log('event: ad: adscanceled', arguments); });
-	player.on('adserror', function () { console.log('event: ad: adserror', arguments); });
+    player.on('contentupdate', function() { console.log('event: ad: contentupdate', arguments); });
+    player.on('readyforpreroll', function() { console.log('event: ad: readyforpreroll', arguments); });
+    player.on('contentplayback', function() { console.log('event: ad: contentplayback', arguments); });
+    player.on('adsready', function() { console.log('event: ad: adsready', arguments); });
+    player.on('adscanceled', function() { console.log('event: ad: adscanceled', arguments); });
+    player.on('adserror', function() { console.log('event: ad: adserror', arguments); });
 
-	// request ads whenever there's new video content
-	player.on('contentupdate', function() {
-		console.log('contentupdate');
-		// swfobject.embedSWF("http://tout.queuecontinuum.com/videojs.ima_flash.swf", options.id, "640", "360", "10.1", null, flashvars, params);
+    // request ads whenever there's new video content
+    player.on('contentupdate', function() {
+        console.log('contentupdate');
+        // swfobject.embedSWF("http://tout.queuecontinuum.com/videojs.ima_flash.swf", options.id, "640", "360", "10.1", null, flashvars, params);
 
-		// fetch ad inventory asynchronously, then ...
-		// player.trigger('adsready');
-	});
+        // fetch ad inventory asynchronously, then ...
+        // player.trigger('adsready');
+    });
 
 
 
-	player.on('readyforpreroll', function() {
-		console.log('readyforpreroll');
+    player.on('readyforpreroll', function() {
+        console.log('readyforpreroll');
 
-    // pauseContent event is too slow, so pausing ahead of time here
-    player.pause();
+        // pauseContent event is too slow, so pausing ahead of time here
+        player.pause();
 
-    // player.ima_flash.pauseContent();
-    player.ima_flash.getSWF().startAd();
-	});
+        // player.ima_flash.pauseContent();
+        player.ima_flash.getSWF().startAd();
+    });
 
     player.on('ended', function() {
         player.ima_flash.getSWF().videojsEnded();
@@ -1042,38 +1024,38 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         return player.ima_flash.getSWF().adPaused();
     }
 
-/*
-	var options = {
-		id: 'video_id',
-		adTagUrl: 'http://cdn.daxee.com/vpaid/vast.xml'
-	};
+    /*
+      var options = {
+        id: 'video_id',
+        adTagUrl: 'http://cdn.daxee.com/vpaid/vast.xml'
+      };
 
-	player.ima_flash(options);
+      player.ima_flash(options);
 
-	// Remove controls from the player on iPad to stop native controls from stealing
-	// our click
-	var contentPlayer =  document.getElementById('content_video_html5_api');
-	if ((navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/Android/i)) && contentPlayer.hasAttribute('controls')) {
-		contentPlayer.removeAttribute('controls');
-	}
+      // Remove controls from the player on iPad to stop native controls from stealing
+      // our click
+      var contentPlayer =  document.getElementById('content_video_html5_api');
+      if ((navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/Android/i)) && contentPlayer.hasAttribute('controls')) {
+        contentPlayer.removeAttribute('controls');
+      }
 
-	// Initialize the ad container when the video player is clicked, but only the
-	// first time it's clicked.
-	var clickedOnce = false;
-	var startEvent = 'click';
-	if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/Android/i)) {
-		startEvent = 'tap';
-	}
-	player.on(startEvent, function() {
-		if (!clickedOnce) {
-			player.ima_flash.initializeAdDisplayContainer();
-			player.ima_flash.requestAds();
-			player.play();
-			clickedOnce = true;
-		}
-	});
-*/
-	swfobject.embedSWF("http://tout.queuecontinuum.com/videojs.ima_flash.swf", swfDiv.id, player.width(), player.height(), "10.1", null, flashvars, params, {}, function(e) {
+      // Initialize the ad container when the video player is clicked, but only the
+      // first time it's clicked.
+      var clickedOnce = false;
+      var startEvent = 'click';
+      if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/Android/i)) {
+        startEvent = 'tap';
+      }
+      player.on(startEvent, function() {
+        if (!clickedOnce) {
+          player.ima_flash.initializeAdDisplayContainer();
+          player.ima_flash.requestAds();
+          player.play();
+          clickedOnce = true;
+        }
+      });
+    */
+    swfobject.embedSWF("http://tout.queuecontinuum.com/videojs.ima_flash.swf", swfDiv.id, player.width(), player.height(), "10.1", null, flashvars, params, {}, function(e) {
         if (e.success) {
             console.log('SWF loaded');
         } else {
