@@ -1000,6 +1000,10 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 	player.on('waiting', function() { console.log('event: player: waiting'); });
 	player.on('resize', function() { console.log('event: player: resize'); });
 
+    player.on('volumechange', function() {
+        player.ima_flash.getSWF().videojsVolumeChange(player.volume(), player.muted());
+    });
+
 	player.on('playing', function () {
 		console.log('playing', arguments);
 		// player.trigger('adsready');

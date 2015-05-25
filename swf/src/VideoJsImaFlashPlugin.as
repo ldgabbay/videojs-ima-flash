@@ -101,6 +101,7 @@ package {
       ExternalInterface.addCallback("requestAds", jsi_requestAds);
       ExternalInterface.addCallback("startAd", jsi_startAd);
       ExternalInterface.addCallback("videojsEnded", jsi_videojsEnded);
+      ExternalInterface.addCallback("videojsVolumeChange", jsi_videojsVolumeChange);
 
       // arg videoPlayerValue:VideoPlayer
 
@@ -172,6 +173,13 @@ package {
       trace('info', 'jsi_videojsEnded');
 
       adsLoader.contentComplete();
+    }
+
+    private function jsi_videojsVolumeChange(volume:Number, muted:Boolean):void {
+      trace('info', 'jsi_videojsVolumeChange', volume, muted);
+      if (adsManager) {
+        adsManager.volume = muted ? 0 : volume;
+      }
     }
 
     private function jso_trigger(eventName:String):void {
@@ -418,20 +426,20 @@ package {
       //                                           volumeMutedHandler);
       canScrub = true;
     }
-
-    private function volumeMutedHandler(event:FlexEvent):void {
-      // Prevent video player from receiving the event, because it would affect
-      // content.
-      event.stopImmediatePropagation();
-      adsManager.volume = 0;
-    }
-
-    private function volumeChangeHandler(event:Event):void {
-      // Prevent video player from receiving the event, because it would affect
-      // content.
-      event.stopImmediatePropagation();
-      // adsManager.volume = videoPlayer.volumeBar.value;
-    }
+//
+//    private function volumeMutedHandler(event:FlexEvent):void {
+//      // Prevent video player from receiving the event, because it would affect
+//      // content.
+//      event.stopImmediatePropagation();
+//      adsManager.volume = 0;
+//    }
+//
+//    private function volumeChangeHandler(event:Event):void {
+//      // Prevent video player from receiving the event, because it would affect
+//      // content.
+//      event.stopImmediatePropagation();
+//      // adsManager.volume = videoPlayer.volumeBar.value;
+//    }
 
     private function set canScrub(value:Boolean):void {
       // videoPlayer.scrubBar.enabled = value;
