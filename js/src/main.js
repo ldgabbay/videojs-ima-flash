@@ -165,45 +165,6 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 */
     };
 
-//    /**
-//     * Listener for the ADS_MANAGER_LOADED event. Creates the AdsManager,
-//     * sets up event listeners, and triggers the 'adsready' event for
-//     * videojs-ads-contrib.
-//     * @ignore
-//     */
-//    player.ima_flash.onAdsManagerLoaded_ = function(adsManagerLoadedEvent) {
-//    	// TODO
-//        adsManager = adsManagerLoadedEvent.getAdsManager(
-//            contentPlayheadTracker, adsRenderingSettings);
-//
-//        adsManager.addEventListener(
-//            google.ima.AdErrorEvent.Type.AD_ERROR,
-//            player.ima_flash.onAdError_);
-//        adsManager.addEventListener(
-//            google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED,
-//            player.ima_flash.onContentPauseRequested_);
-//        adsManager.addEventListener(
-//            google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,
-//            player.ima_flash.onContentResumeRequested_);
-//
-//        adsManager.addEventListener(
-//            google.ima.AdEvent.Type.LOADED,
-//            player.ima_flash.onAdLoaded_);
-//        adsManager.addEventListener(
-//            google.ima.AdEvent.Type.STARTED,
-//            player.ima_flash.onAdStarted_);
-//        adsManager.addEventListener(
-//            google.ima.AdEvent.Type.CLICK,
-//            player.ima_flash.onAdPlayPauseClick_);
-//        adsManager.addEventListener(
-//            google.ima.AdEvent.Type.COMPLETE,
-//            player.ima_flash.onAdComplete_);
-//        adsManager.addEventListener(
-//            google.ima.AdEvent.Type.SKIPPED,
-//            player.ima_flash.onAdComplete_);
-//
-//        player.trigger('adsready');
-//    };
 
     /**
      * Start ad playback, or content video playback in the absence of a
