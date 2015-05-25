@@ -404,14 +404,6 @@ package {
       //                                              playPauseButtonHandler,
       //                                              false, // use capture.
       //                                              int.MAX_VALUE);
-      // videoPlayer.volumeBar.addEventListener(Event.CHANGE,
-      //                                        volumeChangeHandler,
-      //                                        false, // use capture.
-      //                                        int.MAX_VALUE);
-      // videoPlayer.volumeBar.addEventListener(FlexEvent.MUTED_CHANGE,
-      //                                        volumeMutedHandler,
-      //                                        false, // use capture.
-      //                                        int.MAX_VALUE);
     }
 
     /**
@@ -420,26 +412,8 @@ package {
     private function enableContentControls():void {
       // videoPlayer.playPauseButton.removeEventListener(MouseEvent.CLICK,
       //                                                 playPauseButtonHandler);
-      // videoPlayer.volumeBar.removeEventListener(Event.CHANGE,
-      //                                           volumeChangeHandler);
-      // videoPlayer.volumeBar.removeEventListener(FlexEvent.MUTED_CHANGE,
-      //                                           volumeMutedHandler);
       canScrub = true;
     }
-//
-//    private function volumeMutedHandler(event:FlexEvent):void {
-//      // Prevent video player from receiving the event, because it would affect
-//      // content.
-//      event.stopImmediatePropagation();
-//      adsManager.volume = 0;
-//    }
-//
-//    private function volumeChangeHandler(event:Event):void {
-//      // Prevent video player from receiving the event, because it would affect
-//      // content.
-//      event.stopImmediatePropagation();
-//      // adsManager.volume = videoPlayer.volumeBar.value;
-//    }
 
     private function set canScrub(value:Boolean):void {
       // videoPlayer.scrubBar.enabled = value;
