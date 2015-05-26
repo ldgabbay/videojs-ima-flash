@@ -56,7 +56,7 @@ window.videojs_trigger = function(id, eventName) {
 
 window.videojs_ima_flash_ready = function(id) {
     console.log('videojs_ima_flash_ready', id);
-    // videojs(id).ima_flash.getSWF().requestAds();
+    // videojs(id).ima_flash.requestAds();
 };
 
 window.videojs_currentTime = function(id) {
@@ -91,6 +91,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     var adContainerDiv;
 
     var swfDiv;
+    var swfElement = null;
 
 
     /**
@@ -265,13 +266,9 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 
 
 
-    player.ima_flash.getSWF = function() {
-        return document.getElementById(swfDiv.id);
-    };
-
     player.ima_flash.setTag = function(tag) {
         console.log("setTag():", tag);
-        player.ima_flash.getSWF().setTag(tag);
+        swfElement.setTag(tag);
     };
 
     /**
@@ -825,7 +822,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 
 
     player.on('volumechange', function() {
-        player.ima_flash.getSWF().setAdVolume(player.volume(), player.muted());
+        swfElement.setAdVolume(player.volume(), player.muted());
     });
 
 
@@ -873,16 +870,21 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         player.pause();
 
         // player.ima_flash.pauseContent();
-        player.ima_flash.getSWF().startAd();
+        swfElement.startAd();
     });
 
     player.on('ended', function() {
-        player.ima_flash.getSWF().videojsEnded();
+        swfElement.videojsEnded();
     });
 
 
+
+    player.ima_flash.requestAds = function() {
+        swfElement.requestAds();
+    }
+
     player.ima_flash.resizeAd = function(width, height, viewMode) {
-        var swf = player.ima_flash.getSWF();
+        var swf = swfElement;
         swf.width = width;
         swf.height = height;
         adContainerDiv.style.width = swfDiv.style.width = width + 'px';
@@ -891,32 +893,32 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     }
 
     player.ima_flash.stopAd = function() {
-        player.ima_flash.getSWF().stopAd();
+        swfElement.stopAd();
     }
 
     player.ima_flash.pauseAd = function() {
-        player.ima_flash.getSWF().pauseAd();
+        swfElement.pauseAd();
     }
 
     player.ima_flash.resumeAd = function() {
-        player.ima_flash.getSWF().resumeAd();
+        swfElement.resumeAd();
     }
 
     player.ima_flash.adPaused = function() {
-        return player.ima_flash.getSWF().adPaused();
+        return swfElement.adPaused();
     }
 
 
     player.ima_flash.expandAd = function() {
-        player.ima_flash.getSWF().expandAd();
+        swfElement.expandAd();
     }
 
     player.ima_flash.collapseAd = function() {
-        player.ima_flash.getSWF().collapseAd();
+        swfElement.collapseAd();
     }
 
     player.ima_flash.adExpanded = function() {
-        return player.ima_flash.getSWF().adExpanded();
+        return swfElement.adExpanded();
     }
 
 
@@ -948,6 +950,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     swfobject.embedSWF("http://tout.queuecontinuum.com/videojs.ima_flash.swf", swfDiv.id, player.width(), player.height(), "10.1", null, flashvars, params, {}, function(e) {
         if (e.success) {
             console.log('SWF loaded');
+            swfElement = e.ref;
         } else {
             console.error('SWF load failed');
         }
