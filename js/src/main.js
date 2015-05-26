@@ -254,16 +254,6 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         duration: 0
     };
 
-    /**
-     * Stores data for the ad playhead tracker.
-     */
-    var adPlayheadTracker = {
-        currentTime: 0,
-        duration: 0,
-        isPod: false,
-        adPosition: 0,
-        totalAds: 0
-    };
 
     /**
      * Content ended listeners passed by the publisher to the plugin. Publishers
