@@ -175,14 +175,19 @@ package {
     }
 
 
-    private function jsi_resizeAd(width:Number, height:Number, isFullscreen:Boolean):void {
+    private function jsi_resizeAd(width:Number, height:Number, viewMode:String):void {
       trace('info', 'jsi_resizeAd');
 
       _videojs_width = width;
       _videojs_height = height;
 
+      if ((viewMode !== ViewModes.NORMAL) && (viewMode !== ViewModes.FULLSCREEN) && (viewMode !== ViewModes.THUMBNAIL)) {
+        // TODO
+        trace('error', 'invalid viewMode', viewMode);
+      }
+
       if ((_state === STATE_ADS_LOADED) || (_state === STATE_ADS_PLAYING)) {
-        adsManager.resize(_videojs_width, _videojs_height, isFullscreen ? ViewModes.FULLSCREEN : ViewModes.NORMAL);
+        adsManager.resize(_videojs_width, _videojs_height, viewMode);
       }
     }
 

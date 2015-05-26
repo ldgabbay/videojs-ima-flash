@@ -790,16 +790,18 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     player.on('fullscreenchange', function() {
         if (player.isFullscreen()) {
             // fullscreenDiv.className = 'ima-fullscreen';
-            player.ima_flash.resizeAd(window.screen.width, window.screen.height, true);
+            player.ima_flash.resizeAd(window.screen.width, window.screen.height, "fullscreen");
         } else {
             // fullscreenDiv.className = 'ima-non-fullscreen';
-            player.ima_flash.resizeAd(player.width(), player.height(), false);
+            // TODO what was state before? normal or thumbnail?
+            player.ima_flash.resizeAd(player.width(), player.height(), "normal");
         }
     });
     player.on('resize', function() {
         console.log('event: player: resize');
 
-        player.ima_flash.resizeAd(player.width(), player.height(), player.isFullscreen());
+        // TODO what is state if not fullscreen? normal or thumbnail?
+        player.ima_flash.resizeAd(player.width(), player.height(), player.isFullscreen() ? "fullscreen" : "normal");
     });
 
 
@@ -901,13 +903,13 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     }
 
 
-    player.ima_flash.resizeAd = function(width, height, fullscreen) {
+    player.ima_flash.resizeAd = function(width, height, viewMode) {
         var swf = player.ima_flash.getSWF();
         swf.width = width;
         swf.height = height;
         adContainerDiv.style.width = swfDiv.style.width = width + 'px';
         adContainerDiv.style.height = swfDiv.style.height = height + 'px';
-        swf.resizeAd(width, height, fullscreen);
+        swf.resizeAd(width, height, viewMode);
     }
 
 
