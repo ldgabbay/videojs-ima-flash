@@ -1,11 +1,12 @@
 // @require "swfobject-2.2.js"
 /* global swfobject */
 
-// https://developers.google.com/interactive-media-ads/docs/sdks/flash/v3/quickstart
-// https://github.com/videojs/videojs-contrib-ads
-// https://raw.githubusercontent.com/videojs/videojs-contrib-ads/master/ad-states.png
-// https://github.com/videojs/video.js/blob/master/docs/api/vjs.Player.md
-
+/*
+https://developers.google.com/interactive-media-ads/docs/sdks/flash/v3/quickstart
+https://github.com/videojs/videojs-contrib-ads
+https://raw.githubusercontent.com/videojs/videojs-contrib-ads/master/ad-states.png
+https://github.com/videojs/video.js/blob/master/docs/api/vjs.Player.md
+ */
 
 // <object type="application/x-shockwave-flash" data="http://vjs.zencdn.net/4.12/video-js.swf" width="100%" height="100%" id="video_id_flash_api" name="video_id_flash_api" class="vjs-tech" style="display: block;">
 //     <param name="movie" value="http://vjs.zencdn.net/4.12/video-js.swf">
