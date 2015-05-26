@@ -73,7 +73,7 @@ package {
       ExternalInterface.addCallback("requestAds", jsi_requestAds);
       ExternalInterface.addCallback("startAd", jsi_startAd);
       ExternalInterface.addCallback("videojsEnded", jsi_videojsEnded);
-      ExternalInterface.addCallback("videojsVolumeChange", jsi_videojsVolumeChange);
+      ExternalInterface.addCallback("setAdVolume", jsi_setAdVolume);
 
       // methods similar to VPAID 1.0
       ExternalInterface.addCallback("resizeAd", jsi_resizeAd);
@@ -142,8 +142,8 @@ package {
       _state = STATE_ADS_COMPLETE;
     }
 
-    private function jsi_videojsVolumeChange(volume:Number, muted:Boolean):void {
-      trace('info', 'jsi_videojsVolumeChange', volume, muted);
+    private function jsi_setAdVolume(volume:Number, muted:Boolean):void {
+      trace('info', 'jsi_setAdVolume', volume, muted);
       if (adsManager) {
         adsManager.volume = muted ? 0 : volume;
       }

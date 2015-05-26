@@ -825,7 +825,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 
 
     player.on('volumechange', function() {
-        player.ima_flash.getSWF().videojsVolumeChange(player.volume(), player.muted());
+        player.ima_flash.getSWF().setAdVolume(player.volume(), player.muted());
     });
 
 
