@@ -7,10 +7,6 @@
 // https://developers.google.com/interactive-media-ads/docs/sdks/flash/v3/apis
 
 package {
-  // import spark.components.Group;
-  // import spark.components.VideoPlayer;
-  // import spark.core.SpriteVisualElement;
-
   import com.google.ads.ima.api.AdErrorEvent;
   import com.google.ads.ima.api.AdEvent;
   import com.google.ads.ima.api.AdsLoader;
@@ -20,31 +16,13 @@ package {
   import com.google.ads.ima.api.AdsRequest;
   import com.google.ads.ima.api.ViewModes;
 
-  import org.osmf.events.TimeEvent;
-
-  import mx.events.FlexEvent;
-
-  import flash.display.Shape;
-  import flash.display.Sprite;
-  import flash.display.DisplayObject;
-  import flash.display.DisplayObjectContainer;
-  import flash.display.StageScaleMode;
-  import flash.display.StageAlign;
-  import flash.events.Event;
-  import flash.events.FullScreenEvent;
-  import flash.events.MouseEvent;
-  import flash.external.ExternalInterface;
   import flash.display.LoaderInfo;
+  import flash.display.Sprite;
+  import flash.display.StageAlign;
+  import flash.display.StageScaleMode;
+  import flash.external.ExternalInterface;
 
-  /**
-   * Simple Google IMA SDK video player integration.
-   */
   public class VideoJsImaFlashPlugin extends Sprite {
-
-    // The video player object.
-    // private var videoPlayer:VideoPlayer;
-    private var fullScreenExited:Boolean;
-    private var contentPlayheadTime:Number;
 
     // SDK Objects
     private var adsLoader:AdsLoader = null;
@@ -57,21 +35,15 @@ package {
     private var _videojs_nlheight:Number = 0;
     private var _ad_tag:String = null;
 
-    private var _in_ad_request:Boolean = false;
-
     private const STATE_NONE:String = "NONE";
     private const STATE_ADS_REQUESTED:String = "ADS_REQUESTED";
     private const STATE_ADS_LOADED:String = "ADS_LOADED";
     private const STATE_ADS_PLAYING:String = "ADS_PLAYING";
+    private const STATE_ADS_COMPLETE:String = "ADS_COMPLETE";
 
     private var _state:String = STATE_NONE;
 
 
-    /**
-     * Sets up the click-to-play player for ads and content playback.
-     *
-     * @param videoPlayerValue The content video player.
-     */
     public function VideoJsImaFlashPlugin():void {
       var flashvars:Object = LoaderInfo(this.root.loaderInfo).parameters;
 
@@ -107,27 +79,11 @@ package {
       ExternalInterface.addCallback("resumeAd", jsi_resumeAd);
       ExternalInterface.addCallback("adPaused", jsi_adPaused);
 
-      // arg videoPlayerValue:VideoPlayer
-
-      /*
-      var videoPlayerValue:VideoPlayer = new VideoPlayer();
-
-      videoPlayer = videoPlayerValue;
-      videoPlayer.source = CONTENT_URL;
-      // Add some custom event handlers.
-      videoPlayer.stage.addEventListener(FullScreenEvent.FULL_SCREEN,
-                                         fullscreenChangeHandler);
-      videoPlayer.addEventListener(TimeEvent.COMPLETE, contentCompleteHandler);
-      videoPlayer.addEventListener(TimeEvent.CURRENT_TIME_CHANGE,
-                                   contentPlayheadTimeChangeHandler);
-      // Workaround flex problem with fullscreen: when fullscreen is exited,
-      // flex video player component still has the old dimension values. We wait
-      // for update complete event, after which correct values are available.
-      videoPlayer.addEventListener(FlexEvent.UPDATE_COMPLETE,
-                                   videoPlayerUpdateCompleteHandler);
-      */
+      ExternalInterface.addCallback("resizeAd", jsi_resizeAd);
 
       adsLoader = new AdsLoader();
+      adsLoader.settings.playerType = 'videojs-ima-flash';
+      adsLoader.settings.playerVersion = '0.1.0';
       adsLoader.loadSdk();
       adsLoader.addEventListener(AdsManagerLoadedEvent.ADS_MANAGER_LOADED, adsLoaderAdsManagerLoaded);
       adsLoader.addEventListener(AdErrorEvent.AD_ERROR, adsLoaderAdError);
@@ -178,6 +134,7 @@ package {
       trace('info', 'jsi_videojsEnded');
 
       adsLoader.contentComplete();
+      _state = STATE_ADS_COMPLETE;
     }
 
     private function jsi_videojsVolumeChange(volume:Number, muted:Boolean):void {
@@ -212,6 +169,18 @@ package {
       trace('info', 'jsi_adPaused');
 
       return _adsManager_paused;
+    }
+
+
+    private function jsi_resizeAd(width:Number, height:Number, isFullscreen:Boolean):void {
+      trace('info', 'jsi_resizeAd');
+
+      _videojs_width = width;
+      _videojs_height = height;
+
+      if ((_state === STATE_ADS_LOADED) || (_state === STATE_ADS_PLAYING)) {
+        adsManager.resize(_videojs_width, _videojs_height, isFullscreen ? ViewModes.FULLSCREEN : ViewModes.NORMAL);
+      }
     }
 
 
@@ -294,18 +263,9 @@ package {
       }
 
       // Add required ads manager listeners.
-      // ALL_ADS_COMPLETED event will fire once all the ads have played. There
-      // might be more than one ad played in the case of ad pods and ad rules.
-      adsManager.addEventListener(AdEvent.ALL_ADS_COMPLETED, allAdsCompletedHandler);
-      // If ad is linear, it will fire content pause request event.
       adsManager.addEventListener(AdEvent.CONTENT_PAUSE_REQUESTED, adsManagerContentPauseRequested);
-      // When ad finishes or if ad is non-linear, content resume event will be
-      // fired. For example, if ad rules response only has post-roll, content
-      // resume will be fired for pre-roll ad (which is not present) to signal
-      // that content should be started or resumed.
       adsManager.addEventListener(AdEvent.CONTENT_RESUME_REQUESTED, adsManagerContentResumeRequested);
-      // We want to know when an ad starts.
-      adsManager.addEventListener(AdEvent.STARTED, startedHandler);
+      adsManager.addEventListener(AdEvent.ALL_ADS_COMPLETED, adsManagerAllAdsCompleted);
       adsManager.addEventListener(AdErrorEvent.AD_ERROR, adsManagerPlayErrorHandler);
 
       // If your video player supports a specific version of VPAID ads, pass
@@ -317,12 +277,6 @@ package {
       adsManager.init(_videojs_width,
                       _videojs_height,
                       ViewModes.NORMAL);
-
-      // Add the adsContainer to the display list. Below is an example of how
-      // to do it in Flex.
-      // var flexAdContainer:SpriteVisualElement = new SpriteVisualElement();
-      // flexAdContainer.addChild(adsManager.adsContainer);
-      // (videoPlayer.videoDisplay.parent as Group).addElement(flexAdContainer);
 
       _state = STATE_ADS_LOADED;
       jso_trigger('adsready');
@@ -357,7 +311,6 @@ package {
      * is necessary to prevent memory leaks.
      */
     private function destroyAdsManager():void {
-      enableContentControls();
       if (adsManager) {
         if (adsManager.adsContainer.parent &&
             adsManager.adsContainer.parent.contains(adsManager.adsContainer)) {
@@ -375,19 +328,6 @@ package {
       trace('info', 'adsManagerContentPauseRequested');
 
       jso_content_pause();
-
-      // The ad will cover a large portion of the content, therefore content
-      // must be paused.
-      // if (videoPlayer.playing) {
-      //   videoPlayer.pause();
-      // }
-      // // Manually flip play button state.
-      // videoPlayer.playPauseButton.selected =
-      //       !videoPlayer.playPauseButton.selected;
-      // Rewire controls to affect ads manager instead of the content video.
-      enableLinearAdControls();
-      // Ads usually do not allow scrubbing.
-      canScrub = false;
     }
 
     /**
@@ -398,117 +338,18 @@ package {
       trace('info', 'adsManagerContentResumeRequested');
 
       jso_content_resume();
-
-      // Rewire controls to affect content instead of the ads manager.
-      enableContentControls();
-      // videoPlayer.play();
-    }
-
-    /**
-     * The AdsManager raises this event when the ad has started.
-     */
-    private function startedHandler(event:AdEvent):void {
-      // If the ad exists and is a non-linear, start the content with the ad.
-      // if (event.ad != null && !event.ad.linear) {
-      //   videoPlayer.play();
-      // }
     }
 
     /**
      * The AdsManager raises this event when all ads for the request have been
      * played.
      */
-    private function allAdsCompletedHandler(event:AdEvent):void {
+    private function adsManagerAllAdsCompleted(event:AdEvent):void {
+      trace('info', 'adsManagerAllAdsCompleted');
+
       // Ads manager can be destroyed after all of its ads have played.
       destroyAdsManager();
       _state = STATE_NONE;
     }
-
-    /**
-     * Switches the video player controls to control the video ad.
-     */
-    private function enableLinearAdControls():void {
-    }
-
-    /**
-     * Switches the video player controls to control the content.
-     */
-    private function enableContentControls():void {
-      canScrub = true;
-    }
-
-    private function set canScrub(value:Boolean):void {
-      // videoPlayer.scrubBar.enabled = value;
-      // videoPlayer.scrubBar.mouseEnabled = value;
-    }
-
-//    /**
-//     * Update the playhead time for the AdsManager.
-//     */
-//    private function contentPlayheadTimeChangeHandler(event:TimeEvent):void {
-//      contentPlayheadTime = event.time;
-//    }
-
-    private function fullscreenChangeHandler(event:FullScreenEvent):void {
-      if (event.fullScreen) {
-        adsManager.resize(_videojs_width,
-                          _videojs_height,
-                          ViewModes.FULLSCREEN);
-      } else {
-        fullScreenExited = true;
-        // Ads manager resize will occur after update complete.
-      }
-    }
-
-    /**
-     * Workaround for a bug in the video player's full screen functionality.
-     */
-    private function videoPlayerUpdateCompleteHandler(event:FlexEvent):void {
-      if (fullScreenExited) {
-        fullScreenExited = false;
-        adsManager.resize(_videojs_width,
-                          _videojs_height,
-                          ViewModes.NORMAL);
-      }
-    }
-
-//    /**
-//     * The video player raises this event when the content has finished playing.
-//     */
-//    private function contentCompleteHandler(event:TimeEvent):void {
-//      videoPlayer.stage.removeEventListener(FullScreenEvent.FULL_SCREEN,
-//                                            fullscreenChangeHandler);
-//      videoPlayer.removeEventListener(FlexEvent.UPDATE_COMPLETE,
-//                                      videoPlayerUpdateCompleteHandler);
-//      videoPlayer.removeEventListener(TimeEvent.COMPLETE,
-//                                      contentCompleteHandler);
-//      // Tell the SDK when any content completes, even content without ads. The
-//      // SDK uses this method for better ad selection (especially ad rules).
-//      adsLoader.contentComplete();
-//    }
-
-
-//    private function traceDisplayList(container:DisplayObjectContainer, indentString:String = "=>"):void {
-//      var child:DisplayObject;
-//
-//      for (var i:uint=0; i < container.numChildren; i++) {
-//        child = container.getChildAt(i);
-//        trace(indentString, child.parent.name + " " + indentString + " " + child.name);
-//        dumpPos(child, indentString + "...")
-//        if (container.getChildAt(i) is DisplayObjectContainer) {
-//          traceDisplayList(DisplayObjectContainer(child), indentString + "");
-//        }
-//      }
-//    }
-//
-//
-//    private function dumpPos(dob:DisplayObject, indentString:String = "=>"):void {
-//      trace('x = '+dob.x);
-//      trace('y = '+dob.y);
-//      trace('scaleX = '+dob.scaleX);
-//      trace('scaleY = '+dob.scaleY);
-//      trace('width = '+dob.width);
-//      trace('height = '+dob.height);
-//    }
   }
 }
