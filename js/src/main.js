@@ -449,118 +449,62 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     };
 
 
-
-    /**
-     * Ads an EventListener to the AdsManager. For a list of available events,
-     * see
-     * https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdEvent.Type
-     * @param {google.ima.AdEvent.Type} event The AdEvent.Type for which to
-     *     listen.
-     * @param {function} callback The method to call when the event is fired.
-     */
-    player.ima_flash.addEventListener = function(event, callback) {
-        if (adsManager) {
-            adsManager.addEventListener(event, callback);
-        }
-    };
-
-    /**
-     * Returns the instance of the AdsManager.
-     * @return {google.ima.AdsManager} The AdsManager being used by the plugin.
-     */
-    player.ima_flash.getAdsManager = function() {
-        return adsManager;
-    };
-
-
-    /**
-     * Adds a listener for the 'ended' event of the video player. This should be
-     * used instead of setting an 'ended' listener directly to ensure that the
-     * ima can do proper cleanup of the SDK before other event listeners
-     * are called.
-     * @param {function} listener The listener to be called when content
-     *     completes.
-     */
-    player.ima_flash.addContentEndedListener = function(listener) {
-        contentEndedListeners.push(listener);
-    };
-
-    /**
-     * Pauses the ad.
-     */
-    player.ima_flash.pauseAd = function() {
-        if (adsActive && adPlaying) {
-            playPauseDiv.className = 'ima-paused';
-            adsManager.pause();
-            adPlaying = false;
-        }
-    };
-
-    /**
-     * Resumes the ad.
-     */
-    player.ima_flash.resumeAd = function() {
-        if (adsActive && !adPlaying) {
-            playPauseDiv.className = 'ima-playing';
-            adsManager.resume();
-            adPlaying = true;
-        }
-    };
-
-    /**
-     * Set up intervals to check for seeking and update current video time.
-     */
-    player.ima_flash.setUpPlayerIntervals_ = function() {
-        updateTimeIntervalHandle =
-            setInterval(player.ima_flash.updateCurrentTime, seekCheckInterval);
-        seekCheckIntervalHandle =
-            setInterval(player.ima_flash.checkForSeeking, seekCheckInterval);
-    };
-
-    /**
-     * Updates the current time of the video
-     */
-    player.ima_flash.updateCurrentTime = function() {
-        if (!contentPlayheadTracker.seeking) {
-            contentPlayheadTracker.currentTime = player.currentTime();
-        }
-    };
-
-    /**
-     * Detects when the user is seeking through a video.
-     * This is used to prevent mid-rolls from playing while a user is seeking.
-     *
-     * There *is* a seeking property of the HTML5 video element, but it's not
-     * properly implemented on all platforms (e.g. mobile safari), so we have to
-     * check ourselves to be sure.
-     */
-    player.ima_flash.checkForSeeking = function() {
-        var tempCurrentTime = player.currentTime();
-        var diff = (tempCurrentTime - contentPlayheadTracker.previousTime) * 1000;
-        if (Math.abs(diff) > seekCheckInterval + seekThreshold) {
-            contentPlayheadTracker.seeking = true;
-        } else {
-            contentPlayheadTracker.seeking = false;
-        }
-        contentPlayheadTracker.previousTime = player.currentTime();
-    };
+    // TODO ensure midroll ads if user seeks
+    //
+    //    /**
+    //     * Set up intervals to check for seeking and update current video time.
+    //     */
+    // //    player.ima_flash.setUpPlayerIntervals_ = function() {
+    //        updateTimeIntervalHandle =
+    //            setInterval(player.ima_flash.updateCurrentTime, seekCheckInterval);
+    //        seekCheckIntervalHandle =
+    //            setInterval(player.ima_flash.checkForSeeking, seekCheckInterval);
+    //    };
+    //
+    //    /**
+    //     * Updates the current time of the video
+    //     */
+    //    player.ima_flash.updateCurrentTime = function() {
+    //        if (!contentPlayheadTracker.seeking) {
+    //            contentPlayheadTracker.currentTime = player.currentTime();
+    //        }
+    //    };
+    //
+    //    /**
+    //     * Detects when the user is seeking through a video.
+    //     * This is used to prevent mid-rolls from playing while a user is seeking.
+    //     *
+    //     * There *is* a seeking property of the HTML5 video element, but it's not
+    //     * properly implemented on all platforms (e.g. mobile safari), so we have to
+    //     * check ourselves to be sure.
+    //     */
+    //    player.ima_flash.checkForSeeking = function() {
+    //        var tempCurrentTime = player.currentTime();
+    //        var diff = (tempCurrentTime - contentPlayheadTracker.previousTime) * 1000;
+    //        if (Math.abs(diff) > seekCheckInterval + seekThreshold) {
+    //            contentPlayheadTracker.seeking = true;
+    //        } else {
+    //            contentPlayheadTracker.seeking = false;
+    //        }
+    //        contentPlayheadTracker.previousTime = player.currentTime();
+    //    };
 
 
-    /**
-     * Local content ended listener for contentComplete.
-     */
-    var localContentEndedListener = function() {
-        if (adsLoader && !contentComplete) {
-            adsLoader.contentComplete();
-            contentComplete = true;
-        }
-        for (var index in contentEndedListeners) {
-            contentEndedListeners[index]();
-        }
-        clearInterval(updateTimeIntervalHandle);
-        clearInterval(seekCheckIntervalHandle);
-        player.one('play', player.ima_flash.setUpPlayerIntervals_);
-    };
+    //    /**
+    //     * Local content ended listener for contentComplete.
+    //     */
+    //    var localContentEndedListener = function() {
+    //        if (adsLoader && !contentComplete) {
+    //            adsLoader.contentComplete();
+    //            contentComplete = true;
+    //        }
+    //        for (var index in contentEndedListeners) {
+    //            contentEndedListeners[index]();
+    //        }
+    //        clearInterval(updateTimeIntervalHandle);
+    //        clearInterval(seekCheckIntervalHandle);
+    //        // player.one('play', player.ima_flash.setUpPlayerIntervals_);
+    //    };
 
     settings = extend({}, ima_defaults, options || {});
 
@@ -576,9 +520,9 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         showCountdown = false;
     }
 
-    player.one('play', player.ima_flash.setUpPlayerIntervals_);
+    // player.one('play', player.ima_flash.setUpPlayerIntervals_);
 
-    player.on('ended', localContentEndedListener);
+    // player.on('ended', localContentEndedListener);
 
     var contrib_ads_defaults = {
         debug: settings.debug,
