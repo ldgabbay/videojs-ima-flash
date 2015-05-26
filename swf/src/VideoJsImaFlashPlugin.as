@@ -116,7 +116,6 @@ package {
         return;
       }
 
-      destroyAdsManager();
       requestAds();
     }
 
@@ -317,7 +316,7 @@ package {
 
       if (!adsManager) {
         trace('warning', 'no adsManager');
-        _state = STATE_NONE;
+        _state = STATE_ERROR;
         return;
       }
 
@@ -380,6 +379,7 @@ package {
           adsManager.adsContainer.parent.removeChild(adsManager.adsContainer);
         }
         adsManager.destroy();
+        adsManager = null;
       }
     }
 
