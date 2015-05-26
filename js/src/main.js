@@ -170,11 +170,6 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     var adsRenderingSettings = null;
 
     /**
-     * Ad tag URL. Should return VAST, VMAP, or ad rules.
-     */
-    var adTagUrl;
-
-    /**
      * Current IMA SDK Ad.
      */
     var currentAd;
@@ -369,84 +364,84 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     };
 
 
-    /**
-     * Starts the content video when a non-linear ad is loaded.
-     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
-     * @ignore
-     */
-    player.ima_flash.onAdLoaded_ = function(adEvent) {
-        if (!adEvent.getAd().isLinear()) {
-            player.play();
-        }
-    };
-
-    /**
-     * Starts the interval timer to check the current ad time when an ad starts
-     * playing.
-     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
-     * @ignore
-     */
-    player.ima_flash.onAdStarted_ = function(adEvent) {
-        currentAd = adEvent.getAd();
-        if (currentAd.isLinear()) {
-            adTrackingTimer = setInterval(
-                player.ima_flash.onAdPlayheadTrackerInterval_, 250);
-            // Don't bump container when controls are shown
-            adContainerDiv.className = '';
-        } else {
-            // Bump container when controls are shown
-            adContainerDiv.className = 'bumpable-ima-flash-ad-container';
-        }
-    };
-
-    /**
-     * Clears the interval timer for current ad time when an ad completes.
-     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
-     * @ignore
-     */
-    player.ima_flash.onAdComplete_ = function(adEvent) {
-        if (currentAd.isLinear()) {
-            clearInterval(adTrackingTimer);
-        }
-    };
-
-    /**
-     * Gets the current time and duration of the ad and calls the method to
-     * update the ad UI.
-     * @ignore
-     */
-    player.ima_flash.onAdPlayheadTrackerInterval_ = function() {
-        var remainingTime = adsManager.getRemainingTime();
-        var duration = currentAd.getDuration();
-        var currentTime = duration - remainingTime;
-        currentTime = currentTime > 0 ? currentTime : 0;
-        var isPod = false;
-        var adPosition, totalAds;
-        if (currentAd.getAdPodInfo()) {
-            isPod = true;
-            adPosition = currentAd.getAdPodInfo().getAdPosition();
-            totalAds = currentAd.getAdPodInfo().getTotalAds();
-        }
-
-        // Update countdown timer data
-        var remainingMinutes = Math.floor(remainingTime / 60);
-        var remainingSeconds = Math.floor(remainingTime % 60);
-        if (remainingSeconds.toString().length < 2) {
-            remainingSeconds = '0' + remainingSeconds;
-        }
-        var podCount = ': ';
-        if (isPod) {
-            podCount = ' (' + adPosition + ' of ' + totalAds + '): ';
-        }
-        countdownDiv.innerHTML =
-            'Advertisement' + podCount +
-            remainingMinutes + ':' + remainingSeconds;
-
-        // Update UI
-        var playProgressRatio = currentTime / duration;
-        var playProgressPercent = playProgressRatio * 100;
-        progressDiv.style.width = playProgressPercent + '%';
-    };
+    //    /**
+    //     * Starts the content video when a non-linear ad is loaded.
+    //     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+    //     * @ignore
+    //     */
+    //    player.ima_flash.onAdLoaded_ = function(adEvent) {
+    //        if (!adEvent.getAd().isLinear()) {
+    //            player.play();
+    //        }
+    //    };
+    //
+    //    /**
+    //     * Starts the interval timer to check the current ad time when an ad starts
+    //     * playing.
+    //     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+    //     * @ignore
+    //     */
+    //    player.ima_flash.onAdStarted_ = function(adEvent) {
+    //        currentAd = adEvent.getAd();
+    //        if (currentAd.isLinear()) {
+    //            adTrackingTimer = setInterval(
+    //                player.ima_flash.onAdPlayheadTrackerInterval_, 250);
+    //            // Don't bump container when controls are shown
+    //            adContainerDiv.className = '';
+    //        } else {
+    //            // Bump container when controls are shown
+    //            adContainerDiv.className = 'bumpable-ima-flash-ad-container';
+    //        }
+    //    };
+    //
+    //    /**
+    //     * Clears the interval timer for current ad time when an ad completes.
+    //     * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+    //     * @ignore
+    //     */
+    //    player.ima_flash.onAdComplete_ = function(adEvent) {
+    //        if (currentAd.isLinear()) {
+    //            clearInterval(adTrackingTimer);
+    //        }
+    //    };
+    //
+    //    /**
+    //     * Gets the current time and duration of the ad and calls the method to
+    //     * update the ad UI.
+    //     * @ignore
+    //     */
+    //    player.ima_flash.onAdPlayheadTrackerInterval_ = function() {
+    //        var remainingTime = adsManager.getRemainingTime();
+    //        var duration = currentAd.getDuration();
+    //        var currentTime = duration - remainingTime;
+    //        currentTime = currentTime > 0 ? currentTime : 0;
+    //        var isPod = false;
+    //        var adPosition, totalAds;
+    //        if (currentAd.getAdPodInfo()) {
+    //            isPod = true;
+    //            adPosition = currentAd.getAdPodInfo().getAdPosition();
+    //            totalAds = currentAd.getAdPodInfo().getTotalAds();
+    //        }
+    //
+    //        // Update countdown timer data
+    //        var remainingMinutes = Math.floor(remainingTime / 60);
+    //        var remainingSeconds = Math.floor(remainingTime % 60);
+    //        if (remainingSeconds.toString().length < 2) {
+    //            remainingSeconds = '0' + remainingSeconds;
+    //        }
+    //        var podCount = ': ';
+    //        if (isPod) {
+    //            podCount = ' (' + adPosition + ' of ' + totalAds + '): ';
+    //        }
+    //        countdownDiv.innerHTML =
+    //            'Advertisement' + podCount +
+    //            remainingMinutes + ':' + remainingSeconds;
+    //
+    //        // Update UI
+    //        var playProgressRatio = currentTime / duration;
+    //        var playProgressPercent = playProgressRatio * 100;
+    //        progressDiv.style.width = playProgressPercent + '%';
+    //    };
 
 
     // TODO ensure midroll ads if user seeks
