@@ -75,14 +75,15 @@ package {
       ExternalInterface.addCallback("videojsEnded", jsi_videojsEnded);
       ExternalInterface.addCallback("videojsVolumeChange", jsi_videojsVolumeChange);
 
+      // methods similar to VPAID 1.0
+      ExternalInterface.addCallback("resizeAd", jsi_resizeAd);
+      ExternalInterface.addCallback("stopAd", jsi_stopAd);
       ExternalInterface.addCallback("pauseAd", jsi_pauseAd);
       ExternalInterface.addCallback("resumeAd", jsi_resumeAd);
       ExternalInterface.addCallback("adPaused", jsi_adPaused);
-
-      ExternalInterface.addCallback("resizeAd", jsi_resizeAd);
-
       ExternalInterface.addCallback("expandAd", jsi_expandAd);
       ExternalInterface.addCallback("collapseAd", jsi_collapseAd);
+      ExternalInterface.addCallback("adExpanded", jsi_adExpanded);
 
       adsLoader = new AdsLoader();
       adsLoader.settings.playerType = 'videojs-ima-flash';
@@ -129,6 +130,7 @@ package {
       this.addChild(adsManager.adsContainer);
       adsManager.start();
       _adsManager_paused = false;
+      _adsManager_expanded = false;
       _state = STATE_ADS_PLAYING;
       jso_trigger('adstart');
     }
@@ -147,6 +149,38 @@ package {
       }
     }
 
+
+    // methods similar to VPAID 1.0
+
+    // TODO initAd
+
+    private function jsi_resizeAd(width:Number, height:Number, viewMode:String):void {
+      trace('info', 'jsi_resizeAd');
+
+      _videojs_width = width;
+      _videojs_height = height;
+
+      if ((viewMode !== ViewModes.NORMAL) && (viewMode !== ViewModes.FULLSCREEN) && (viewMode !== ViewModes.THUMBNAIL)) {
+        // TODO
+        trace('error', 'invalid viewMode', viewMode);
+        return;
+      }
+
+      if ((_state === STATE_ADS_LOADED) || (_state === STATE_ADS_PLAYING)) {
+        adsManager.resize(_videojs_width, _videojs_height, viewMode);
+      }
+    }
+
+    // TODO startAd
+
+    private function jsi_stopAd():void {
+      trace('info', 'jsi_stopAd');
+
+      if (adsManager) {
+        adsManager.stop();
+        // TODO handle state
+      }
+    }
 
     private var _adsManager_paused:Boolean = false;
 
@@ -175,28 +209,14 @@ package {
     }
 
 
-    private function jsi_resizeAd(width:Number, height:Number, viewMode:String):void {
-      trace('info', 'jsi_resizeAd');
-
-      _videojs_width = width;
-      _videojs_height = height;
-
-      if ((viewMode !== ViewModes.NORMAL) && (viewMode !== ViewModes.FULLSCREEN) && (viewMode !== ViewModes.THUMBNAIL)) {
-        // TODO
-        trace('error', 'invalid viewMode', viewMode);
-      }
-
-      if ((_state === STATE_ADS_LOADED) || (_state === STATE_ADS_PLAYING)) {
-        adsManager.resize(_videojs_width, _videojs_height, viewMode);
-      }
-    }
-
+    private var _adsManager_expanded:Boolean = false;
 
     private function jsi_expandAd():void {
       trace('info', 'jsi_expandAd');
 
       if (adsManager) {
         adsManager.expand();
+        _adsManager_expanded = true;
       }
     }
 
@@ -205,7 +225,14 @@ package {
 
       if (adsManager) {
         adsManager.collapse();
+        _adsManager_expanded = false;
       }
+    }
+
+    private function jsi_adExpanded():Boolean {
+      trace('info', 'jsi_adExpanded');
+
+      return _adsManager_expanded;
     }
 
 

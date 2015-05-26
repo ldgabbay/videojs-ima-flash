@@ -881,6 +881,19 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     });
 
 
+    player.ima_flash.resizeAd = function(width, height, viewMode) {
+        var swf = player.ima_flash.getSWF();
+        swf.width = width;
+        swf.height = height;
+        adContainerDiv.style.width = swfDiv.style.width = width + 'px';
+        adContainerDiv.style.height = swfDiv.style.height = height + 'px';
+        swf.resizeAd(width, height, viewMode);
+    }
+
+    player.ima_flash.stopAd = function() {
+        player.ima_flash.getSWF().stopAd();
+    }
+
     player.ima_flash.pauseAd = function() {
         player.ima_flash.getSWF().pauseAd();
     }
@@ -902,14 +915,8 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         player.ima_flash.getSWF().collapseAd();
     }
 
-
-    player.ima_flash.resizeAd = function(width, height, viewMode) {
-        var swf = player.ima_flash.getSWF();
-        swf.width = width;
-        swf.height = height;
-        adContainerDiv.style.width = swfDiv.style.width = width + 'px';
-        adContainerDiv.style.height = swfDiv.style.height = height + 'px';
-        swf.resizeAd(width, height, viewMode);
+    player.ima_flash.adExpanded = function() {
+        return player.ima_flash.getSWF().adExpanded();
     }
 
 
