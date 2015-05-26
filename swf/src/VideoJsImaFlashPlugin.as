@@ -255,16 +255,16 @@ package {
     }
 
 
-    private function jso_content_pause():void {
-      trace('info', 'jso_content_pause');
+    private function jso_pauseContent():void {
+      trace('info', 'jso_pauseContent');
 
-      ExternalInterface.call('videojs_ima_flash_content_pause', _videojs_id);
+      ExternalInterface.call('videojs_ima_flash_pauseContent', _videojs_id);
     }
 
-    private function jso_content_resume():void {
-      trace('info', 'jso_content_resume');
+    private function jso_resumeContent():void {
+      trace('info', 'jso_resumeContent');
 
-      ExternalInterface.call('videojs_ima_flash_content_resume', _videojs_id);
+      ExternalInterface.call('videojs_ima_flash_resumeContent', _videojs_id);
     }
 
 
@@ -379,7 +379,7 @@ package {
     private function adsManagerContentPauseRequested(event:AdEvent):void {
       trace('info', 'adsManagerContentPauseRequested');
 
-      jso_content_pause();
+      jso_pauseContent();
     }
 
     /**
@@ -389,7 +389,7 @@ package {
     private function adsManagerContentResumeRequested(event:AdEvent):void {
       trace('info', 'adsManagerContentResumeRequested');
 
-      jso_content_resume();
+      jso_resumeContent();
     }
 
     /**

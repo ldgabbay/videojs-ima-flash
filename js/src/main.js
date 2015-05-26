@@ -64,13 +64,13 @@ window.videojs_currentTime = function(id) {
     return videojs(id).currentTime();
 };
 
-window.videojs_ima_flash_content_pause = function(id) {
-    console.log('videojs_ima_flash_content_pause', id);
+window.videojs_ima_flash_pauseContent = function(id) {
+    console.log('videojs_ima_flash_pauseContent', id);
     videojs(id).ima_flash.pauseContent();
 };
 
-window.videojs_ima_flash_content_resume = function(id) {
-    console.log('videojs_ima_flash_content_resume', id);
+window.videojs_ima_flash_resumeContent = function(id) {
+    console.log('videojs_ima_flash_resumeContent', id);
     videojs(id).ima_flash.resumeContent();
 };
 
