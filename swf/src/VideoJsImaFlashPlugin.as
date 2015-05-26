@@ -81,6 +81,9 @@ package {
 
       ExternalInterface.addCallback("resizeAd", jsi_resizeAd);
 
+      ExternalInterface.addCallback("expandAd", jsi_expandAd);
+      ExternalInterface.addCallback("collapseAd", jsi_collapseAd);
+
       adsLoader = new AdsLoader();
       adsLoader.settings.playerType = 'videojs-ima-flash';
       adsLoader.settings.playerVersion = '0.1.0';
@@ -180,6 +183,23 @@ package {
 
       if ((_state === STATE_ADS_LOADED) || (_state === STATE_ADS_PLAYING)) {
         adsManager.resize(_videojs_width, _videojs_height, isFullscreen ? ViewModes.FULLSCREEN : ViewModes.NORMAL);
+      }
+    }
+
+
+    private function jsi_expandAd():void {
+      trace('info', 'jsi_expandAd');
+
+      if (adsManager) {
+        adsManager.expand();
+      }
+    }
+
+    private function jsi_collapseAd():void {
+      trace('info', 'jsi_collapseAd');
+
+      if (adsManager) {
+        adsManager.collapse();
       }
     }
 
