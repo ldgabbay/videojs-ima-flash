@@ -315,7 +315,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         // TODO
         // window.console.log('Ad error: ' + adErrorEvent.getError());
         // adsManager.destroy();
-        adContainerDiv.style.display = 'none';
+        // adContainerDiv.style.display = 'none'; // do not hide swf, it effectively destroys the object
         player.trigger('adserror');
     };
 
@@ -349,7 +349,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         adsActive = false;
         adPlaying = false;
         // player.on('ended', localContentEndedListener);
-        adContainerDiv.style.display = 'none';
+        // adContainerDiv.style.display = 'none'; // do not hide swf, it effectively destroys the object
         controlsDiv.style.display = 'none';
         vjsControls.show();
         // if (!currentAd) {
