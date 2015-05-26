@@ -93,19 +93,9 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 
 
     /**
-     * Current plugin version.
-     */
-    var VERSION = '0.2.0';
-
-    /**
      * Stores user-provided settings.
      */
     var settings;
-
-    /**
-     * Video element playing content.
-     */
-    var contentPlayer;
 
     /**
      * Boolean flag to show or hide the ad countdown timer.
@@ -721,7 +711,6 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         window.console.log('Error: must provide id of video.js div');
         return;
     }
-    contentPlayer = document.getElementById(settings['id'] + '_html5_api');
     // Default showing countdown timer to true.
     showCountdown = true;
     if (settings['showCountdown'] == false) {
@@ -787,10 +776,6 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
             player.ima_flash.hideAdControls_,
             false);
         player.ima_flash.createControls_();
-
-        // // TODO
-        // adDisplayContainer =
-        //     new google.ima.AdDisplayContainer(adContainerDiv, contentPlayer);
     };
     player.ima_flash.createAdContainer_();
 
@@ -924,12 +909,6 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 
       player.ima_flash(options);
 
-      // Remove controls from the player on iPad to stop native controls from stealing
-      // our click
-      var contentPlayer =  document.getElementById('content_video_html5_api');
-      if ((navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/Android/i)) && contentPlayer.hasAttribute('controls')) {
-        contentPlayer.removeAttribute('controls');
-      }
 
       // Initialize the ad container when the video player is clicked, but only the
       // first time it's clicked.
