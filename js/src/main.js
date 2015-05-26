@@ -389,6 +389,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         // controlsDiv.style.display = 'block';
         vjsControls.hide();
 
+        swfElement.setAdVolume(player.volume(), player.muted());
 
         // player.pause();
         document.getElementById(player.id() + '_html5_api').style.display = 'none';
