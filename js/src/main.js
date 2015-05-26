@@ -888,12 +888,11 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     }
 
     player.ima_flash.resizeAd = function(width, height, viewMode) {
-        var swf = swfElement;
-        swf.width = width;
-        swf.height = height;
-        adContainerDiv.style.width = swfDiv.style.width = width + 'px';
-        adContainerDiv.style.height = swfDiv.style.height = height + 'px';
-        swf.resizeAd(width, height, viewMode);
+        swfElement.width = width;
+        swfElement.height = height;
+        adContainerDiv.style.width = width + 'px';
+        adContainerDiv.style.height = height + 'px';
+        swfElement.resizeAd(width, height, viewMode);
     }
 
     player.ima_flash.stopAd = function() {
