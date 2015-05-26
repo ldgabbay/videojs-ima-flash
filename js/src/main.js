@@ -49,6 +49,10 @@ var
  * SWF/JS bridge methods
  */
 
+window.videojs_error = function(id, errorMessage) {
+    console.error('videojs_ima_flash', id, errorMessage);
+};
+
 window.videojs_trigger = function(id, eventName) {
     console.log('videojs_trigger', id, eventName);
     videojs(id).trigger(eventName);

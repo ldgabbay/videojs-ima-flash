@@ -40,6 +40,7 @@ package {
     private const STATE_ADS_LOADED:String = "ADS_LOADED";
     private const STATE_ADS_PLAYING:String = "ADS_PLAYING";
     private const STATE_ADS_COMPLETE:String = "ADS_COMPLETE";
+    private const STATE_ERROR:String = "ERROR";
 
     private var _state:String = STATE_NONE;
 
@@ -236,6 +237,12 @@ package {
     }
 
 
+    private function jso_error(errorMessage:String):void {
+      trace('info', 'jso_error', errorMessage);
+
+      ExternalInterface.call('videojs_error', _videojs_id, errorMessage);
+    }
+
     private function jso_trigger(eventName:String):void {
       trace('info', 'jso_trigger');
 
@@ -318,7 +325,7 @@ package {
       adsManager.addEventListener(AdEvent.CONTENT_PAUSE_REQUESTED, adsManagerContentPauseRequested);
       adsManager.addEventListener(AdEvent.CONTENT_RESUME_REQUESTED, adsManagerContentResumeRequested);
       adsManager.addEventListener(AdEvent.ALL_ADS_COMPLETED, adsManagerAllAdsCompleted);
-      adsManager.addEventListener(AdErrorEvent.AD_ERROR, adsManagerPlayErrorHandler);
+      adsManager.addEventListener(AdErrorEvent.AD_ERROR, adsManagerAdError);
 
       // If your video player supports a specific version of VPAID ads, pass
       // in the version. If your video player does not support VPAID ads yet,
@@ -339,13 +346,14 @@ package {
       trace("warning", "requestAds error", event.error.errorMessage);
 
       if (_state !== STATE_ADS_REQUESTED) {
-        trace('warning', 'adsLoaderAdsManagerLoaded called while in state '+_state);
+        trace('warning', 'adsLoaderAdError called while in state '+_state);
         return;
       }
 
       // TODO handle failure on requestAds()
       // videoPlayer.play();
-      _state = STATE_NONE;
+      jso_error('adsLoaderAdError: ' + event.error.errorMessage);
+      _state = STATE_ERROR;
     }
 
 
@@ -354,8 +362,11 @@ package {
      * informational signals. The SDK will send all ads completed event if there
      * are no more ads to display.
      */
-    private function adsManagerPlayErrorHandler(event:AdErrorEvent):void {
+    private function adsManagerAdError(event:AdErrorEvent):void {
       trace("warning", "Ad playback error: " + event.error.errorMessage);
+
+      jso_error('adsManagerAdError: ' + event.error.errorMessage);
+      _state = STATE_ERROR;
     }
 
     /**
