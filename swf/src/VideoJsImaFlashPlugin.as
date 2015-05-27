@@ -59,7 +59,10 @@ package {
       _videojs_height = flashvars.height;
       _videojs_nlwidth = flashvars.nlwidth;
       _videojs_nlheight = flashvars.nlheight;
-      _ad_tag = flashvars.tag;
+      if (flashvars.hasOwnProperty('adTagUrl')) {
+        _ad_tag = flashvars.adTagUrl;
+        // TODO auto load ads?
+      }
 
       this.stage.scaleMode = StageScaleMode.NO_SCALE;
       this.stage.align = StageAlign.TOP_LEFT;

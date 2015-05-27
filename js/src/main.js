@@ -502,12 +502,6 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 
     settings = extend({}, ima_defaults, options || {});
 
-    // Currently this isn't used but I can see it being needed in the future, so
-    // to avoid implementation problems with later updates I'm requiring it.
-    if (!settings['id']) {
-        window.console.log('Error: must provide id of video.js div');
-        return;
-    }
     // Default showing countdown timer to true.
     showCountdown = true;
     if (settings['showCountdown'] == false) {
@@ -703,8 +697,8 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         wmode: "transparent"
     };
 
-    if (options && options.tag && typeof options.tag === "string") {
-        flashvars.tag = options.tag;
+    if (options && options.adTagUrl && typeof options.adTagUrl === "string") {
+        flashvars.adTagUrl = options.adTagUrl;
     }
 
 
