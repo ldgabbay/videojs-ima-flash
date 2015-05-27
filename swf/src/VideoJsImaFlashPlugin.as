@@ -335,7 +335,11 @@ package {
       adsManager.addEventListener(AdEvent.RESUMED, function(event:AdEvent):void { jso_trigger('ad_resumed'); });
       adsManager.addEventListener(AdEvent.COMPLETED, function(event:AdEvent):void { jso_trigger('ad_completed'); });
       adsManager.addEventListener(AdEvent.SKIPPED, function(event:AdEvent):void { jso_trigger('ad_skipped'); });
-      adsManager.addEventListener(AdEvent.CLICKED, function(event:AdEvent):void { jso_trigger('ad_clicked'); });
+      adsManager.addEventListener(AdEvent.CLICKED, function(event:AdEvent):void {
+        adsManager.pause();
+        _adsManager_paused = true;
+        jso_trigger('ad_clicked');
+      });
 
 
       // If your video player supports a specific version of VPAID ads, pass
