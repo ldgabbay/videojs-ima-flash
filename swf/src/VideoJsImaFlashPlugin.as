@@ -369,6 +369,7 @@ package {
       // videoPlayer.play();
       jso_error('adsLoaderAdError: ' + event.error.errorMessage);
       jso_trigger_obj({type: 'ad_error', message: event.error.errorMessage});
+      jso_trigger('adserror');
       _state = STATE_ERROR;
     }
 
@@ -383,6 +384,7 @@ package {
 
       jso_error('adsManagerAdError: ' + event.error.errorMessage);
       jso_trigger_obj({type: 'ad_error', message: event.error.errorMessage});
+      jso_trigger('adserror');
       _state = STATE_ERROR;
     }
 
