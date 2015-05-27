@@ -248,6 +248,12 @@ package {
       ExternalInterface.call('videojs_trigger', _videojs_id, eventName);
     }
 
+    private function jso_trigger_obj(event:Object):void {
+      trace('info', 'jso_trigger_obj');
+
+      ExternalInterface.call('videojs_trigger', _videojs_id, event);
+    }
+
     private function jso_swfReady():void {
       trace('info', 'jso_swfReady');
 
