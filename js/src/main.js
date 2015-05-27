@@ -323,6 +323,8 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     player.ima_flash.pauseContent = function() {
         console.log('pauseContent');
 
+        player.pause();
+
         adsActive = true;
         adPlaying = true;
         // player.off('ended', localContentEndedListener);
