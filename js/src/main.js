@@ -41,7 +41,8 @@ var
     ima_defaults = {
         debug: false,
         timeout: 5000,
-        prerollTimeout: 100
+        prerollTimeout: 100,
+        swfUrl: "http://tout.queuecontinuum.com/videojs.ima_flash.swf"
     };
 
 
@@ -827,7 +828,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         }
       });
     */
-    swfobject.embedSWF("http://tout.queuecontinuum.com/videojs.ima_flash.swf", swfDiv.id, player.width(), player.height(), "10.1", null, flashvars, params, {}, function(e) {
+    swfobject.embedSWF(settings.swfUrl, swfDiv.id, player.width(), player.height(), "10.1", null, flashvars, params, {}, function(e) {
         if (e.success) {
             console.log('SWF loaded');
             swfElement = e.ref;
