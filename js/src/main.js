@@ -58,11 +58,6 @@ window.videojs_trigger = function(id, eventName) {
     videojs(id).trigger(eventName);
 };
 
-window.videojs_ima_flash_swfReady = function(id) {
-    console.log('videojs_ima_flash_swfReady', id);
-    videojs(id).ima_flash.swfReady();
-};
-
 window.videojs_currentTime = function(id) {
     console.log('videojs_currentTime', id);
     return videojs(id).currentTime();
@@ -320,9 +315,9 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     };
 
 
-    player.ima_flash.swfReady = function() {
-        console.log('swfReady');
-    };
+    player.on('swf_ready', function() {
+        console.log('swf_ready');
+    });
 
     player.ima_flash.pauseContent = function() {
         console.log('pauseContent');

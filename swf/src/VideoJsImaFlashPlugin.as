@@ -93,7 +93,7 @@ package {
       adsLoader.addEventListener(AdsManagerLoadedEvent.ADS_MANAGER_LOADED, adsLoaderAdsManagerLoaded);
       adsLoader.addEventListener(AdErrorEvent.AD_ERROR, adsLoaderAdError);
 
-      jso_swfReady();
+      jso_trigger('swf_ready');
     }
 
 
@@ -251,12 +251,6 @@ package {
       trace('info', 'jso_trigger_obj');
 
       ExternalInterface.call('videojs_trigger', _videojs_id, event);
-    }
-
-    private function jso_swfReady():void {
-      trace('info', 'jso_swfReady');
-
-      ExternalInterface.call('videojs_ima_flash_swfReady', _videojs_id);
     }
 
     private function jso_currentTime():Number {
