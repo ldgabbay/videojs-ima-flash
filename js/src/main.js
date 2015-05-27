@@ -41,7 +41,7 @@ var
     ima_defaults = {
         debug: false,
         timeout: 5000,
-        prerollTimeout: 100,
+        prerollTimeout: 1000,
         swfUrl: "http://tout.queuecontinuum.com/videojs.ima_flash.swf"
     };
 
