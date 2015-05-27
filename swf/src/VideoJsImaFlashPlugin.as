@@ -132,7 +132,6 @@ package {
       _adsManager_paused = false;
       _adsManager_expanded = false;
       _state = STATE_ADS_PLAYING;
-      jso_trigger('adstart');
     }
 
     private function jsi_videojsEnded():void {
@@ -310,6 +309,8 @@ package {
         return;
       }
 
+      jso_trigger('ad_loaded');
+
       var contentPlayback:Object = {
         time: function():Number {
           return jso_currentTime() * 1000; // convert to milliseconds
@@ -331,6 +332,14 @@ package {
       adsManager.addEventListener(AdEvent.CONTENT_RESUME_REQUESTED, adsManagerContentResumeRequested);
       adsManager.addEventListener(AdEvent.ALL_ADS_COMPLETED, adsManagerAllAdsCompleted);
       adsManager.addEventListener(AdErrorEvent.AD_ERROR, adsManagerAdError);
+
+      adsManager.addEventListener(AdEvent.STARTED, function(event:AdEvent):void { jso_trigger('ad_started'); });
+      adsManager.addEventListener(AdEvent.PAUSED, function(event:AdEvent):void { jso_trigger('ad_paused'); });
+      adsManager.addEventListener(AdEvent.RESUMED, function(event:AdEvent):void { jso_trigger('ad_resumed'); });
+      adsManager.addEventListener(AdEvent.COMPLETED, function(event:AdEvent):void { jso_trigger('ad_completed'); });
+      adsManager.addEventListener(AdEvent.SKIPPED, function(event:AdEvent):void { jso_trigger('ad_skipped'); });
+      adsManager.addEventListener(AdEvent.CLICKED, function(event:AdEvent):void { jso_trigger('ad_clicked'); });
+
 
       // If your video player supports a specific version of VPAID ads, pass
       // in the version. If your video player does not support VPAID ads yet,
@@ -358,6 +367,7 @@ package {
       // TODO handle failure on requestAds()
       // videoPlayer.play();
       jso_error('adsLoaderAdError: ' + event.error.errorMessage);
+      jso_trigger_obj({type: 'ad_error', message: event.error.errorMessage});
       _state = STATE_ERROR;
     }
 
@@ -371,6 +381,7 @@ package {
       trace("warning", "Ad playback error: " + event.error.errorMessage);
 
       jso_error('adsManagerAdError: ' + event.error.errorMessage);
+      jso_trigger_obj({type: 'ad_error', message: event.error.errorMessage});
       _state = STATE_ERROR;
     }
 
