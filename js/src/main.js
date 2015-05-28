@@ -332,13 +332,12 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         // Skip this call for post-roll ads
         player.ads.startLinearAdMode();
         // }
-        adContainerDiv.style.display = 'block';
-        controlsDiv.style.display = 'block';
         vjsControls.hide();
+        document.getElementById(player.id() + '_html5_api').style.display = 'none';
+        // adContainerDiv.style.display = 'block'; // should always be visible
+        controlsDiv.style.display = 'block';
 
         swfElement.setAdVolume(player.volume(), player.muted());
-
-        document.getElementById(player.id() + '_html5_api').style.display = 'none';
     };
 
     player.ima_flash.resumeContent = function() {
@@ -349,6 +348,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         // player.on('ended', localContentEndedListener);
         // adContainerDiv.style.display = 'none'; // do not hide swf, it effectively destroys the object
         controlsDiv.style.display = 'none';
+        document.getElementById(player.id() + '_html5_api').style.display = 'inline-block';
         vjsControls.show();
         // if (!currentAd) {
         //   // Something went wrong playing the ad
@@ -360,9 +360,6 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         // }
         player.ads.endLinearAdMode();
         // countdownDiv.innerHTML = '';
-
-
-        document.getElementById(player.id() + '_html5_api').style.display = 'inline-block';
     };
 
 
