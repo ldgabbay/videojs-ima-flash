@@ -21,6 +21,7 @@ package {
   import flash.display.StageAlign;
   import flash.display.StageScaleMode;
   import flash.external.ExternalInterface;
+  import flash.system.Security;
 
   public class VideoJsImaFlashPlugin extends Sprite {
 
@@ -46,6 +47,9 @@ package {
 
 
     public function VideoJsImaFlashPlugin():void {
+      Security.allowDomain("*");
+      Security.allowInsecureDomain("*");
+
       var flashvars:Object = LoaderInfo(this.root.loaderInfo).parameters;
 
       trace('info', 'flashvars:');
