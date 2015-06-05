@@ -4,7 +4,9 @@
 // of any kind either expressed or implied.
 
 
-// https://developers.google.com/interactive-media-ads/docs/sdks/flash/v3/apis
+/*
+https://developers.google.com/interactive-media-ads/docs/sdks/flash/v3/apis
+*/
 
 package {
   import com.google.ads.ima.api.Ad;
@@ -369,7 +371,6 @@ package {
         _adsManager_paused = true;
         jso_trigger('ad_clicked');
       });
-
 
       // If your video player supports a specific version of VPAID ads, pass
       // in the version. If your video player does not support VPAID ads yet,
