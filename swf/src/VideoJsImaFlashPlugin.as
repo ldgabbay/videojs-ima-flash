@@ -169,7 +169,7 @@ package {
       if (adsManager) {
         return adsManager.remainingTime;
       }
-      return null;
+      return Number.NaN;
     }
 
     private function jsi_getDuration():Number {
@@ -178,7 +178,7 @@ package {
       if (_current_ad) {
         return _current_ad.duration;
       }
-      return null;
+      return Number.NaN;
     }
 
     // methods similar to VPAID 1.0
