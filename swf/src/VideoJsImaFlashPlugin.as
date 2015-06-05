@@ -52,6 +52,9 @@ package {
 
 
     public function VideoJsImaFlashPlugin():void {
+      trace("================================================================================");
+      trace("                         video.js IMA flash plugin");
+      trace("================================================================================");
       Security.allowDomain("*");
       Security.allowInsecureDomain("*");
 
