@@ -6,6 +6,7 @@
 
 /*
 https://developers.google.com/interactive-media-ads/docs/sdks/flash/v3/apis
+https://github.com/googleads/videojs-ima/blob/master/src/videojs.ima.js
 */
 
 package {
