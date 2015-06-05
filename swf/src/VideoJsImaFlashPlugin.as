@@ -7,6 +7,7 @@
 // https://developers.google.com/interactive-media-ads/docs/sdks/flash/v3/apis
 
 package {
+  import com.google.ads.ima.api.Ad;
   import com.google.ads.ima.api.AdErrorEvent;
   import com.google.ads.ima.api.AdEvent;
   import com.google.ads.ima.api.AdsLoader;
@@ -35,6 +36,7 @@ package {
     private var _videojs_nlwidth:Number = 0;
     private var _videojs_nlheight:Number = 0;
     private var _ad_tag:String = null;
+    private var _current_ad:Ad = null;
 
     private const STATE_NONE:String = "NONE";
     private const STATE_ADS_REQUESTED:String = "ADS_REQUESTED";
@@ -82,6 +84,9 @@ package {
       ExternalInterface.addCallback("startAd", jsi_startAd);
       ExternalInterface.addCallback("videojsEnded", jsi_videojsEnded);
       ExternalInterface.addCallback("setAdVolume", jsi_setAdVolume);
+
+      ExternalInterface.addCallback("getRemainingTime", jsi_getRemainingTime);
+      ExternalInterface.addCallback("getDuration", jsi_getDuration);
 
       // methods similar to VPAID 1.0
       ExternalInterface.addCallback("resizeAd", jsi_resizeAd);
@@ -155,6 +160,23 @@ package {
       }
     }
 
+    private function jsi_getRemainingTime():Number {
+      trace('info', 'jsi_getRemainingTime');
+
+      if (adsManager) {
+        return adsManager.remainingTime;
+      }
+      return null;
+    }
+
+    private function jsi_getDuration():Number {
+      trace('info', 'jsi_getDuration');
+
+      if (_current_ad) {
+        return _current_ad.duration;
+      }
+      return null;
+    }
 
     // methods similar to VPAID 1.0
 
@@ -334,7 +356,10 @@ package {
       adsManager.addEventListener(AdEvent.ALL_ADS_COMPLETED, adsManagerAllAdsCompleted);
       adsManager.addEventListener(AdErrorEvent.AD_ERROR, adsManagerAdError);
 
-      adsManager.addEventListener(AdEvent.STARTED, function(event:AdEvent):void { jso_trigger('ad_started'); });
+      adsManager.addEventListener(AdEvent.STARTED, function(event:AdEvent):void { 
+        _current_ad = event.ad;
+        jso_trigger('ad_started');
+      });
       adsManager.addEventListener(AdEvent.PAUSED, function(event:AdEvent):void { jso_trigger('ad_paused'); });
       adsManager.addEventListener(AdEvent.RESUMED, function(event:AdEvent):void { jso_trigger('ad_resumed'); });
       adsManager.addEventListener(AdEvent.COMPLETED, function(event:AdEvent):void { jso_trigger('ad_completed'); });

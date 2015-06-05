@@ -249,8 +249,10 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
      */
     var contentEndedListeners = [];
 
-
-
+    /**
+     * Timer for updating displayed ad progress
+     */
+    var _adProgressTimer = null;
 
 
 
@@ -338,10 +340,23 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         controlsDiv.style.display = 'block';
 
         swfElement.setAdVolume(player.volume(), player.muted());
+
+        _adProgressTimer = setInterval(function() {
+            var remainingTime = swfElement.getRemainingTime();
+            var remainingMinutes = Math.floor(remainingTime / 60);
+            var remainingSeconds = Math.floor(remainingTime % 60);
+            if (remainingSeconds.toString().length < 2) {
+              remainingSeconds = '0' + remainingSeconds;
+            }
+            countdownDiv.innerHTML = 'Advertisement ' + remainingMinutes + ':' + remainingSeconds;
+        }, 250);
     };
 
     player.ima_flash.resumeContent = function() {
         console.log('resumeContent');
+
+        clearInterval(_adProgressTimer);
+        _adProgressTimer = null;
 
         adsActive = false;
         adPlaying = false;
