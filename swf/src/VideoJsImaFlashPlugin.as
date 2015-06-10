@@ -379,7 +379,8 @@ package {
       // If your video player supports a specific version of VPAID ads, pass
       // in the version. If your video player does not support VPAID ads yet,
       // just pass in 1.0.
-      adsManager.handshakeVersion("1.0");
+      var response:String = adsManager.handshakeVersion("1.0");
+      trace("adsManager.handshakeVersion", response);
       // Init should be called before playing the content in order for ad rules
       // ads to function correctly.
       adsManager.init(_videojs_width,
