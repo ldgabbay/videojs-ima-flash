@@ -105,6 +105,11 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     var showCountdown;
 
     /**
+     * Video.js poster image.
+     */
+    var vjsPosterImage;
+
+    /**
      * Video.js control bar.
      */
     var vjsControls;
@@ -334,6 +339,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         // Skip this call for post-roll ads
         player.ads.startLinearAdMode();
         // }
+        vjsPosterImage.hide();
         vjsControls.hide();
         document.getElementById(player.id() + '_html5_api').style.display = 'none';
         // adContainerDiv.style.display = 'block'; // should always be visible
@@ -364,6 +370,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         // adContainerDiv.style.display = 'none'; // do not hide swf, it effectively destroys the object
         controlsDiv.style.display = 'none';
         document.getElementById(player.id() + '_html5_api').style.display = 'inline-block';
+        vjsPosterImage.show();
         vjsControls.show();
         // if (!currentAd) {
         //   // Something went wrong playing the ad
@@ -560,6 +567,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         // The adContainerDiv is the DOM of the element that will house
         // the ads and ad controls.
 
+        vjsPosterImage = player.getChild('posterImage');
         vjsControls = player.getChild('controlBar');
 
         adContainerDiv =
