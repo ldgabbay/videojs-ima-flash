@@ -1,0 +1,22 @@
+        <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="550" height="400" id="movie_name" align="middle">
+            <param name="movie" value="movie_name.swf"/>
+            <!--[if !IE]>-->
+            <object type="application/x-shockwave-flash" data="movie_name.swf" width="550" height="400">
+                <param name="movie" value="movie_name.swf"/>
+            <!--<![endif]-->
+                <p>Alternative content</p>
+                <a href="http://www.adobe.com/go/getflash">
+                    <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player"/>
+                </a>
+            <!--[if !IE]>-->
+            </object>
+            <!--<![endif]-->
+        </object>
+
+
+    <CORSRule>
+        <AllowedOrigin>*</AllowedOrigin>
+        <AllowedMethod>GET</AllowedMethod>
+        <MaxAgeSeconds>3000</MaxAgeSeconds>
+        <AllowedHeader>Authorization</AllowedHeader>
+    </CORSRule>

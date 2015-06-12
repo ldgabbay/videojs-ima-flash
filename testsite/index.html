@@ -1,0 +1,169 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css" />
+        <link rel="stylesheet" href="css/main.css" />
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+
+        <script type="text/javascript">
+            document.createElement('video');
+            document.createElement('audio');
+            document.createElement('track');
+        </script>
+
+        <link rel="stylesheet" href="//vjs.zencdn.net/4.12/video-js.css" />
+        <script src="//vjs.zencdn.net/4.12/video.js"></script>
+
+        <link rel="stylesheet" href="/css/videojs.ads.css" />
+        <script src="/js/videojs.ads.js"></script>
+
+        <link rel="stylesheet" href="/css/videojs.ima.css" />
+        <script src="/videojs.ima_flash.js"></script>
+
+        <!-- <script type="text/javascript" src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script> -->
+        <!-- <script src="/js/videojs.ima.js"></script> -->
+    </head>
+    <body>
+
+        <input id="tag" style="width:90%" name="tag" type="text"><br>
+        <br>
+        <button onclick="setTag()">load ad tag (must hit this to see ad)</button>
+        <br>
+        <button onclick="setTagV()">load VPAID</button>
+        <br>
+        <button onclick="muteAd()">toggle mute</button>
+        <button onclick="volup()">volume up</button>
+        <button onclick="voldn()">volume down</button>
+        <br>
+        <button onclick="pauseAd()">pauseAd</button>
+        <button onclick="resumeAd()">resumeAd</button>
+        <button onclick="togglePauseAd()">togglePauseAd</button>
+        <br>
+        <button onclick="fullscreen()">fullscreen</button>
+        <button onclick="sizeup()">size up</button>
+        <button onclick="sizedn()">size down</button>
+        <br>
+        <button onclick="expandAd()">expandAd</button>
+        <button onclick="collapseAd()">collapseAd</button>
+        <br>
+        <button onclick="stopAd()">stopAd</button>
+
+
+        <div style="width:640px; margin:100px 100px; text-align: center">
+            <video
+                id="video_id"
+                class="video-js vjs-default-skin"
+                controls
+                preload="auto"
+                width="640"
+                height="360"
+                poster="https://peach.blender.org/wp-content/uploads/bbb-splash.thumbnail.png"
+                data-setup='{"example_option":true}'
+            >
+                <source src="http://mirror.cs.umn.edu/blender.org/peach/trailer/trailer_400p.ogg" type='video/ogg' />
+                <source src="http://mirror.cs.umn.edu/blender.org/peach/trailer/trailer_480p.mov" type='video/h264' />
+                <source src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" type='video/mp4' />
+            </video>
+        </div>
+
+        <script>
+            var TAG = "http://pubads.g.doubleclick.net/gampad/ads?sz=640x360&iu=/6062/iab_vast_samples/skippable&ciu_szs=300x250,728x90&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=[referrer_url]&correlator=[timestamp]";
+            var VPAIDTAG = "http://demo.tremorvideo.com/proddev/vast/vast2VPAIDLinear.xml";
+            document.getElementById("tag").value = TAG;
+
+            var vjs = videojs('video_id', {}, function() {
+                var player = this;
+                // player.ads(); // initialize the ad framework
+                // your custom ad integration code
+
+                player.ima_flash({adTagUrl: TAG});
+            });
+
+
+            window.setTag = function() {
+                var tag_txt = document.getElementById("tag").value;
+                vjs.ima_flash.setTag(tag_txt);
+                vjs.ima_flash.requestAds();
+                vjs.play();
+                return false;
+            };
+
+            window.setTagV = function() {
+                vjs.ima_flash.setTag(VPAIDTAG);
+                vjs.ima_flash.requestAds();
+                vjs.play();
+                return false;
+            };
+
+
+            window.muteAd = function(ismuted) {
+                vjs.muted(!vjs.muted());
+            }
+
+            window.volup = function() {
+                vjs.volume(vjs.volume()+0.1);
+            }
+
+            window.voldn = function() {
+                vjs.volume(vjs.volume()-0.1);
+            }
+
+
+            window.pauseAd = function() {
+                vjs.ima_flash.pauseAd();
+            }
+
+            window.resumeAd = function() {
+                vjs.ima_flash.resumeAd();
+            }
+
+            window.togglePauseAd = function() {
+                if (vjs.ima_flash.adPaused()) {
+                    vjs.ima_flash.resumeAd();
+                } else {
+                    vjs.ima_flash.pauseAd();
+                }
+            }
+
+
+            window.fullscreen = function() {
+                vjs.requestFullscreen();
+            }
+
+            window.sizeup = function() {
+                vjs.width(vjs.width() + 16);
+                vjs.height(vjs.height() + 9);
+            }
+
+            window.sizedn = function() {
+                vjs.width(vjs.width() - 16);
+                vjs.height(vjs.height() - 9);
+            }
+
+
+            window.expandAd = function() {
+                vjs.ima_flash.expandAd();
+            }
+
+            window.collapseAd = function() {
+                vjs.ima_flash.collapseAd();
+            }
+
+
+            window.stopAd = function() {
+                vjs.ima_flash.stopAd();
+            }
+
+        </script>
+
+    </body>
+</html>
