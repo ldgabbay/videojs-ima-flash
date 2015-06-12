@@ -42,7 +42,7 @@ var
         debug: false,
         timeout: 2000,
         prerollTimeout: 1000,
-        swfUrl: "http://tout.queuecontinuum.com/videojs.ima_flash.swf"
+        swfUrl: "videojs.ima_flash.swf"
     };
 
 
