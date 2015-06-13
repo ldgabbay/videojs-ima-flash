@@ -55,22 +55,22 @@ window.videojs_error = function(id, errorMessage) {
 };
 
 window.videojs_trigger = function(id, eventName) {
-    console.log('videojs_trigger', id, eventName);
+    if (DEBUG) { console.log('videojs_trigger', id, eventName); }
     videojs(id).trigger(eventName);
 };
 
 window.videojs_currentTime = function(id) {
-    console.log('videojs_currentTime', id);
+    if (DEBUG) { console.log('videojs_currentTime', id); }
     return videojs(id).currentTime();
 };
 
 window.videojs_ima_flash_pauseContent = function(id) {
-    console.log('videojs_ima_flash_pauseContent', id);
+    if (DEBUG) { console.log('videojs_ima_flash_pauseContent', id); }
     videojs(id).ima_flash.pauseContent();
 };
 
 window.videojs_ima_flash_resumeContent = function(id) {
-    console.log('videojs_ima_flash_resumeContent', id);
+    if (DEBUG) { console.log('videojs_ima_flash_resumeContent', id); }
     videojs(id).ima_flash.resumeContent();
 };
 
@@ -269,7 +269,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 
 
     player.ima_flash.setTag = function(tag) {
-        console.log("setTag():", tag);
+        if (DEBUG) { console.log("setTag():", tag); }
         swfElement.setTag(tag);
     };
 
@@ -324,11 +324,11 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 
 
     player.on('swf_ready', function() {
-        console.log('swf_ready');
+        if (DEBUG) { console.log('swf_ready'); }
     });
 
     player.ima_flash.pauseContent = function() {
-        console.log('pauseContent');
+        if (DEBUG) { console.log('pauseContent'); }
 
         player.pause();
 
@@ -359,7 +359,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     };
 
     player.ima_flash.resumeContent = function() {
-        console.log('resumeContent');
+        if (DEBUG) { console.log('resumeContent'); }
 
         clearInterval(_adProgressTimer);
         _adProgressTimer = null;
@@ -699,7 +699,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
         }
     });
     player.on('resize', function() {
-        console.log('event: player: resize');
+        if (DEBUG) { console.log('event: player: resize'); }
 
         // TODO what is state if not fullscreen? normal or thumbnail?
         player.ima_flash.resizeAd(player.width(), player.height(), player.isFullscreen() ? "fullscreen" : "normal");
@@ -731,44 +731,39 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
 
 
     // log all events
-    player.on('durationchange', function() { console.log('event: player: durationchange', arguments); });
-    player.on('ended', function() { console.log('event: player: ended', arguments); });
-    player.on('error', function() { console.log('event: player: error', arguments); });
-    player.on('firstplay', function() { console.log('event: player: firstplay', arguments); });
-    player.on('fullscreenchange', function() { console.log('event: player: fullscreenchange', arguments); });
-    player.on('loadedalldata', function() { console.log('event: player: loadedalldata', arguments); });
-    player.on('loadeddata', function() { console.log('event: player: loadeddata', arguments); });
-    player.on('loadedmetadata', function() { console.log('event: player: loadedmetadata', arguments); });
-    player.on('loadstart', function() { console.log('event: player: loadstart', arguments); });
-    player.on('pause', function() { console.log('event: player: pause', arguments); });
-    player.on('play', function() { console.log('event: player: play', arguments); });
-    player.on('progress', function() { console.log('event: player: progress', arguments); });
-    player.on('seeked', function() { console.log('event: player: seeked', arguments); });
-    player.on('seeking', function() { console.log('event: player: seeking', arguments); });
-    player.on('timeupdate', function() { console.log('event: player: timeupdate', arguments); });
-    player.on('volumechange', function() { console.log('event: player: volumechange', arguments); });
-    player.on('waiting', function() { console.log('event: player: waiting', arguments); });
-    player.on('resize', function() { console.log('event: player: resize', arguments); });
-    player.on('contentupdate', function() { console.log('event: ad: contentupdate', arguments); });
-    player.on('readyforpreroll', function() { console.log('event: ad: readyforpreroll', arguments); });
-    player.on('contentplayback', function() { console.log('event: ad: contentplayback', arguments); });
-    player.on('adsready', function() { console.log('event: ad: adsready', arguments); });
-    player.on('adscanceled', function() { console.log('event: ad: adscanceled', arguments); });
-    player.on('adserror', function() { console.log('event: ad: adserror', arguments); });
+    if (DEBUG) {
+        player.on('durationchange', function() { console.log('event: player: durationchange', arguments); });
+        player.on('ended', function() { console.log('event: player: ended', arguments); });
+        player.on('error', function() { console.log('event: player: error', arguments); });
+        player.on('firstplay', function() { console.log('event: player: firstplay', arguments); });
+        player.on('fullscreenchange', function() { console.log('event: player: fullscreenchange', arguments); });
+        player.on('loadedalldata', function() { console.log('event: player: loadedalldata', arguments); });
+        player.on('loadeddata', function() { console.log('event: player: loadeddata', arguments); });
+        player.on('loadedmetadata', function() { console.log('event: player: loadedmetadata', arguments); });
+        player.on('loadstart', function() { console.log('event: player: loadstart', arguments); });
+        player.on('pause', function() { console.log('event: player: pause', arguments); });
+        player.on('play', function() { console.log('event: player: play', arguments); });
+        player.on('progress', function() { console.log('event: player: progress', arguments); });
+        player.on('seeked', function() { console.log('event: player: seeked', arguments); });
+        player.on('seeking', function() { console.log('event: player: seeking', arguments); });
+        player.on('timeupdate', function() { console.log('event: player: timeupdate', arguments); });
+        player.on('volumechange', function() { console.log('event: player: volumechange', arguments); });
+        player.on('waiting', function() { console.log('event: player: waiting', arguments); });
+        player.on('resize', function() { console.log('event: player: resize', arguments); });
+        player.on('contentupdate', function() { console.log('event: ad: contentupdate', arguments); });
+        player.on('readyforpreroll', function() { console.log('event: ad: readyforpreroll', arguments); });
+        player.on('contentplayback', function() { console.log('event: ad: contentplayback', arguments); });
+        player.on('adsready', function() { console.log('event: ad: adsready', arguments); });
+        player.on('adscanceled', function() { console.log('event: ad: adscanceled', arguments); });
+        player.on('adserror', function() { console.log('event: ad: adserror', arguments); });
+    }
 
 
-    // request ads whenever there's new video content
-    player.on('contentupdate', function() {
-        console.log('contentupdate');
-        // swfobject.embedSWF("http://tout.queuecontinuum.com/videojs.ima_flash.swf", options.id, "640", "360", "10.1", null, flashvars, params);
-
-        // fetch ad inventory asynchronously, then ...
-        // player.trigger('adsready');
-    });
+    // TODO: request ads whenever there's new video content, i.e. on contentupdate
 
 
     player.on('readyforpreroll', function() {
-        console.log('readyforpreroll');
+        if (DEBUG) { console.log('readyforpreroll'); }
 
         // pauseContent event is too slow, so pausing ahead of time here
         player.pause();
@@ -852,7 +847,7 @@ videojs.plugin("ima_flash", function(options, readyCallback) {
     */
     swfobject.embedSWF(settings.swfUrl, swfDiv.id, player.width(), player.height(), "10.1", null, flashvars, params, {}, function(e) {
         if (e.success) {
-            console.log('SWF loaded');
+            if (DEBUG) { console.log('SWF loaded'); }
             swfElement = e.ref;
         } else {
             console.error('SWF load failed');

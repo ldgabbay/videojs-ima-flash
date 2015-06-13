@@ -8,18 +8,32 @@ module.exports = function( grunt ) {
 
     grunt.initConfig({
         concat: {
-            main: {
+            release: {
                 src: filelist,
-                dest: "build/dist/"+library_name+".js"
+                dest: "build/release/"+library_name+".js",
+                options: {
+                    process: function(src, filepath) {
+                        return src.replace(/\bDEBUG\b/g, 'false');
+                    }
+                }
+            },
+            debug: {
+                src: filelist,
+                dest: "build/debug/"+library_name+".js",
+                options: {
+                    process: function(src, filepath) {
+                        return src.replace(/\bDEBUG\b/g, 'true');
+                    }
+                }
             }
         },
         uglify: {
-            main: {
-                src: [ "build/dist/"+library_name+".js" ],
-                dest: "build/dist/"+library_name+".min.js",
+            release: {
+                src: [ "build/release/"+library_name+".js" ],
+                dest: "build/release/"+library_name+".min.js",
                 options: {
                     preserveComments: false,
-                    sourceMap: "build/dist/"+library_name+".min.map",
+                    sourceMap: "build/release/"+library_name+".min.map",
                     sourceMappingURL: library_name+".min.map",
                     report: "min",
                     beautify: {
@@ -39,6 +53,6 @@ module.exports = function( grunt ) {
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-uglify");
 
-    grunt.registerTask("compile", ["concat:main", "uglify:main"]);
+    grunt.registerTask("compile", ["concat:debug", "concat:release", "uglify:release"]);
     grunt.registerTask("default", ["compile"]);
 };
